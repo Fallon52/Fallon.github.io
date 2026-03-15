@@ -10,225 +10,88 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Microsoft YaHei", sans-serif;
+    transition: all 0.3s ease;
 }
+
+/* 早读主题（默认粉色） */
 body {
-    background: #fff5f8 url('https://img.lovepik.com/background/20211021/large/lovepik-cute-cat-cartoon-background-image_400179310.jpg') repeat fixed;
-    background-size: 200px;
+    background: #fff5f8;
     padding: 10px;
     max-width: 1800px;
     margin: 0 auto;
-    position: relative;
-}
-body::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(255,255,255,0.85);
-    z-index: -1;
-}
-/* 锁定后绿色主题 */
-body.locked-theme {
-    background: #f0f8f0;
-}
-body.locked-theme::before {
-    background: rgba(255,255,255,0.85);
-}
-body.locked-theme .left-box,
-body.locked-theme .right-box,
-body.locked-theme .total-table-area {
-    border-color: #4CAF50;
-}
-body.locked-theme .box-title,
-body.locked-theme .title,
-body.locked-theme .student-name,
-body.locked-theme .time-text {
-    color: #2E7D32;
-}
-body.locked-theme .table th,
-body.locked-theme .total-table th {
-    background: #E8F5E8;
-    color: #2E7D32;
-}
-body.locked-theme .table th,
-body.locked-theme .table td,
-body.locked-theme .total-table th,
-body.locked-theme .total-table td {
-    border-color: #A5D6A7;
-}
-body.locked-theme .student-item {
-    border-color: #A5D6A7;
-    background: #f0f8f0;
 }
 
+/* 晚修主题（绿色） */
+body.night {
+    background: #f0fff4;
+}
+
+/* 迟到橙色样式 */
+.student-item.late {
+    border-color: #FF9800 !important;
+    background: #FFF3E0 !important;
+}
+.student-item.late .student-name {
+    color: #E65100 !important;
+}
+.student-btn.signed.late {
+    background: #FF9800 !important;
+    color: #fff !important;
+}
+
+/* ========== 早读 粉色主题 ========== */
 .title {
     text-align: center;
     font-size: 26px;
     margin-bottom: 10px;
     color: #e6398b;
     font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(230,57,139,0.2);
 }
-.func-bar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 12px;
-}
-.type-btn {
-    padding: 6px 18px;
-    border: none;
-    border-radius: 50px;
-    background: #ffc0cb;
-    color: #e6398b;
-    font-size: 14px;
-    cursor: pointer;
-    font-weight: bold;
-}
-.type-btn.active {
-    background: #e6398b;
-    color: white;
-}
-body.locked-theme .type-btn {
-    background: #c8e6c9;
-    color: #2E7D32;
-}
-body.locked-theme .type-btn.active {
-    background: #4CAF50;
-    color: white;
-}
-
-.week-btn {
+.type-btn, .week-btn, .total-btn, .clear-btn, .export-btn, .night-export-btn {
     padding: 6px 14px;
     border: none;
     border-radius: 50px;
-    background: #ffd6e0;
-    font-size: 14px;
-    cursor: pointer;
+    background: #ffc0cb;
     color: #e6398b;
+    cursor: pointer;
+    font-weight: bold;
 }
-.week-btn.active {
+.type-btn.active, .week-btn.active {
     background: #e6398b;
     color: white;
 }
-body.locked-theme .week-btn {
-    background: #c8e6c9;
-    color: #2E7D32;
-}
-body.locked-theme .week-btn.active {
-    background: #4CAF50;
-    color: white;
-}
-
-.total-btn {
-    padding: 6px 18px;
-    border: none;
-    border-radius: 50px;
-    background: #ff99b4;
-    color: white;
-    font-size: 14px;
-    cursor: pointer;
-    font-weight: bold;
-}
-body.locked-theme .total-btn {
-    background: #66BB6A;
-}
-
-/* 锁按钮样式 */
-.lock-btn {
-    padding: 6px 12px;
-    border: none;
-    border-radius: 50px;
-    background: #f0f0f0;
-    color: #666;
-    font-size: 14px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.2s;
-}
-.lock-btn.locked {
-    background: #4CAF50;
-    color: white;
-}
-
-.main-container {
-    display: flex;
-    gap: 15px;
-    align-items: flex-start;
-    margin-bottom: 15px;
-}
-.left-box {
-    width: 360px;
+.left-box, .right-box, .total-table-area {
     background: white;
     padding: 12px;
     border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(230,57,139,0.1);
     border: 2px solid #ffc0cb;
+    margin-bottom:10px;
 }
 .box-title {
     text-align: center;
-    font-size: 18px;
     margin-bottom: 10px;
     color: #e6398b;
     font-weight: bold;
-    border-bottom: 2px solid #ffc0cb;
-    padding-bottom: 6px;
 }
-.table {
-    width: 100%;
-    border-collapse: collapse;
-}
-.table th, .table td {
+.table th, .table td, .total-table th, .total-table td {
     border: 1px solid #ffc0cb;
-    padding: 6px 4px;
+    padding: 4px;
     text-align: center;
-    font-size: 13px;
+    font-size: 12px;
 }
-.table th {
-    background: #ffe6ee;
-    color: #e6398b;
-}
-.sign-btn {
+.sign-btn, .student-btn {
     width: 100%;
-    padding: 5px;
+    padding: 4px;
     border: none;
     border-radius: 50px;
     background: #ffc0cb;
     color: #e6398b;
     cursor: pointer;
-    font-size: 13px;
     font-weight: bold;
 }
-.sign-btn.signed {
+.sign-btn.signed, .student-btn.signed {
     background: #e6398b;
     color: white;
-}
-.sign-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-body.locked-theme .sign-btn {
-    background: #c8e6c9;
-    color: #2E7D32;
-}
-body.locked-theme .sign-btn.signed {
-    background: #4CAF50;
-    color: white;
-}
-
-.time-text {
-    font-size: 14px;
-    color: #e6398b;
-    font-weight: bold;
-}
-.right-box {
-    flex: 1;
-    background: white;
-    padding: 12px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(230,57,139,0.1);
-    border: 2px solid #ffc0cb;
 }
 .student-grid {
     display: grid;
@@ -237,112 +100,143 @@ body.locked-theme .sign-btn.signed {
 }
 .student-item {
     border: 2px solid #ffc0cb;
-    border-radius: 10px;
-    padding: 6px;
-    text-align: center;
     background: #fff5f8;
+    border-radius: 10px;
+    padding: 8px;
+    text-align: center;
 }
 .student-name {
     font-weight: bold;
-    margin-bottom: 4px;
-    font-size: 13px;
+    margin-bottom: 6px;
+    font-size: 17px; /* 增大学生名字字体 */
     color: #e6398b;
 }
-.student-btn {
-    width: 100%;
-    padding: 4px;
-    border: none;
-    border-radius: 50px;
-    background: #ffc0cb;
+.time-text {
+    font-size: 13px; /* 增大时间字体 */
     color: #e6398b;
-    cursor: pointer;
-    font-size: 12px;
-    margin-bottom: 3px;
-    font-weight: bold;
 }
-.student-btn.signed {
+.export-btn, .night-export-btn {
     background: #e6398b;
     color: white;
 }
-.student-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+
+/* 排行榜样式 */
+.rank-box{
+    background:white;
+    padding:10px;
+    border-radius:15px;
+    border:2px solid #ffc0cb;
 }
-body.locked-theme .student-btn {
+.rank-title{
+    text-align:center;
+    font-weight:bold;
+    margin-bottom:8px;
+    font-size:14px;
+}
+.red-title{ color:#e6398b; }
+.black-title{ color:#ff5722; }
+.rank-list{
+    font-size:12px;
+    line-height:1.5;
+    padding:0 5px;
+}
+
+/* ========== 晚修 绿色主题 ========== */
+body.night .title { color: #2e7d32; }
+body.night .type-btn,
+body.night .week-btn,
+body.night .total-btn,
+body.night .clear-btn {
     background: #c8e6c9;
-    color: #2E7D32;
+    color: #2e7d32;
 }
-body.locked-theme .student-btn.signed {
-    background: #4CAF50;
+body.night .type-btn.active,
+body.night .week-btn.active {
+    background: #2e7d32;
     color: white;
 }
-
-.btn-bar {
-    text-align: center;
-    margin-bottom: 15px;
+body.night .left-box,
+body.night .right-box,
+body.night .total-table-area,
+body.night .rank-box {
+    border-color: #81c784;
 }
-.clear-btn {
-    padding: 6px 18px;
-    border: none;
-    border-radius: 50px;
-    background: #ff6b9e;
+body.night .box-title,
+body.night .rank-title { color: #2e7d32; }
+body.night .table th,
+body.night .table td,
+body.night .total-table th,
+body.night .total-table td {
+    border-color: #81c784;
+}
+body.night .sign-btn,
+body.night .student-btn {
+    background: #c8e6c9;
+    color: #2e7d32;
+}
+body.night .sign-btn.signed,
+body.night .student-btn.signed {
+    background: #2e7d32;
     color: white;
-    cursor: pointer;
-    font-size: 14px;
-    margin: 0 6px;
-    font-weight: bold;
 }
-.clear-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+body.night .student-item {
+    border-color: #81c784;
+    background: #f0fff4;
 }
-body.locked-theme .clear-btn {
-    background: #66BB6A;
+body.night .student-name { color: #2e7d32; }
+body.night .time-text { color: #2e7d32; }
+body.night .export-btn,
+body.night .night-export-btn {
+    background: #2e7d32;
+    color: white;
 }
+body.night .red-title{ color:#2e7d32; }
+body.night .black-title{ color:#e64a19; }
 
-.total-table-area {
-    background: white;
-    padding: 15px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(230,57,139,0.1);
-    border: 2px solid #ffc0cb;
-    display: none;
-}
-.total-table-title {
-    text-align: center;
-    font-size: 20px;
-    color: #e6398b;
+/* 布局 —— 核心对齐调整 */
+.func-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
     margin-bottom: 12px;
-    font-weight: bold;
 }
-.total-table {
+.main-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: stretch; /* 让左右高度一致 */
+}
+.left-col {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+.right-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.student-grid {
+    flex: 1; /* 自动撑满高度，实现底部对齐 */
+}
+
+.left-box {
     width: 100%;
-    border-collapse: collapse;
 }
-.total-table th, .total-table td {
-    border: 1px solid #ffc0cb;
-    padding: 6px 4px;
-    text-align: center;
-    font-size: 12px;
+.total-table-area {
+    display: none;
+    position: relative;
+    padding: 15px;
 }
-.total-table th {
-    background: #ffe6ee;
-    color: #e6398b;
+.night-export-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
 }
 .export-btn {
-    padding: 8px 24px;
-    border: none;
-    border-radius: 50px;
-    background: #e6398b;
-    color: white;
-    font-size: 14px;
-    cursor: pointer;
-    font-weight: bold;
     margin: 15px auto 0;
     display: block;
-}
-body.locked-theme .export-btn {
-    background: #4CAF50;
 }
 </style>
 </head>
@@ -361,26 +255,29 @@ body.locked-theme .export-btn {
     <button class="week-btn" data-week="周五">周五</button>
     <button class="week-btn" data-week="周日">周日</button>
 
-    <button class="lock-btn" id="lockBtn">🔒 锁定当前界面</button>
-
     <button class="total-btn" onclick="showTotal('早读')">📊 早读总表</button>
     <button class="total-btn" onclick="showTotal('晚修')">📊 晚修总表</button>
 </div>
 
 <div class="main-container">
-    <div class="left-box">
-        <div class="box-title">🧹 值日生签到</div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>岗位</th>
-                    <th>值日人员</th>
-                    <th>签到</th>
-                    <th>时间</th>
-                </tr>
-            </thead>
-            <tbody id="dutyBody"></tbody>
-        </table>
+    <div class="left-col">
+        <div class="left-box">
+            <div class="box-title">🧹 值日生</div>
+            <table class="table">
+                <thead><tr><th>岗位</th><th>人员</th><th>签到</th><th>时间</th></tr></thead>
+                <tbody id="dutyBody"></tbody>
+            </table>
+        </div>
+
+        <!-- 排行榜 -->
+        <div class="rank-box">
+            <div class="rank-title red-title">🏆 红榜 - 早到最多 TOP10</div>
+            <div class="rank-list" id="redRank"></div>
+        </div>
+        <div class="rank-box">
+            <div class="rank-title black-title">⚠️ 黑榜 - 迟到最多 TOP10</div>
+            <div class="rank-list" id="blackRank"></div>
+        </div>
     </div>
 
     <div class="right-box">
@@ -389,32 +286,32 @@ body.locked-theme .export-btn {
     </div>
 </div>
 
-<div class="btn-bar">
-    <button class="clear-btn" onclick="clearToday()">🗑️ 清空今日签到</button>
-    <button class="clear-btn" onclick="clearAll()">🗑️ 清空全部记录</button>
+<div style="text-align:center; margin-bottom:15px;">
+    <button class="clear-btn" onclick="clearToday()">🗑️ 清空今日</button>
+    <button class="clear-btn" onclick="clearAllWithPassword()">🗑️ 清空全部</button>
 </div>
 
 <div class="total-table-area" id="totalArea">
-    <div class="total-table-title" id="totalTitle"></div>
+    <div class="box-title" id="totalTitle"></div>
+    <button class="night-export-btn" id="nightExportBtn" style="display:none;" onclick="exportExcel()">📥 导出晚修Excel</button>
     <table class="total-table">
         <thead id="totalHead"></thead>
         <tbody id="totalBody"></tbody>
     </table>
-    <button class="export-btn" onclick="exportTotal()">💾 导出Excel</button>
+    <button class="export-btn" onclick="exportExcel()">💾 导出Excel</button>
 </div>
 
 <script>
-// ===================== 值日表 =====================
+// ===================== 配置 =====================
 const dutyConfig = {
     周一: {一二大组:"胥淘然",三四大组:"吴芯蕾",走廊:"楠/佳/圣",天桥:"钟佳妍",栏杆:"钟雯珺",公区1:"李诗钰",公区2:"梁海瑜",公区3:"甘诚鑫",公区4:"罗文卓",公区5:"黄继聪"},
     周二: {一二大组:"欧美莹",三四大组:"洪烨欣",走廊:"林明辉",天桥:"周凯荧",栏杆:"蔡钧浩",公区1:"陈紫荧",公区2:"甘婷方",公区3:"冯昱钧",公区4:"陈宇鹏",公区5:"伍柏熹"},
     周三: {一二大组:"段芸洁",三四大组:"黄高峰",走廊:"赵祥宇",天桥:"何俊朗",栏杆:"陈嘉俊",公区1:"梁婉儿",公区2:"王梓萱",公区3:"解勤志",公区4:"刘雨悦",公区5:"张上亮"},
     周四: {一二大组:"许耀耀",三四大组:"徐雨彤",走廊:"黎卓然",天桥:"陈卓熙",栏杆:"邓浩海",公区1:"廖美倩",公区2:"蒙嘉怡",公区3:"林建斌",公区4:"梁柏瑜",公区5:"孟星宇"},
     周五: {一二大组:"高晓柔",三四大组:"黄潞",走廊:"钟子承",天桥:"梁景烨",栏杆:"梁梓轩",公区1:"蔡文靖",公区2:"杜焯浩",公区3:"辛俊耀",公区4:"林卓熙",公区5:"李浩明"},
-    周日: {一二大组:"值日被扣分名单",三四大组:"值日被扣分名单",走廊:"值日被扣分名单",天桥:"值日被扣分名单",栏杆:"值日被扣分名单",公区1:"值日被扣分名单",公区2:"值日被扣分名单",公区3:"值日被扣分名单",公区4:"值日被扣分名单",公区5:"值日被扣分名单"}
+    周日: {一二大组:"扣分名单",三四大组:"扣分名单",走廊:"扣分名单",天桥:"扣分名单",栏杆:"扣分名单",公区1:"扣分名单",公区2:"扣分名单",公区3:"扣分名单",公区4:"扣分名单",公区5:"扣分名单"}
 };
 
-// ===================== 学生名单 =====================
 const studentList = [
     "蔡钧浩","黄潞","黎卓然","伍柏熹","周夏旭","钟雯珺","高晓柔","刘雨悦","段芸洁","李浩明",
     "李诗钰","梁婉儿","洪烨欣","罗文卓","黄高峰","钟佳妍","吴芯蕾","陈宇鹏","赵祥宇","林卓熙",
@@ -427,308 +324,348 @@ const studentList = [
 const weeks = ["周一","周二","周三","周四","周五","周日"];
 let currentType = "早读";
 let currentWeek = "周一";
+let currentTotalType = "";
 
-const UNLOCK_PASSWORD = "240703";
+// 清空全部密码
+const CLEAR_PASSWORD = "578945319";
 
-let dutyEl = [];
-let studentEl = [];
+// 时间规则
+const TIME_RULE = {
+    早读: { start: {h:6,m:30}, late: {h:6,m:55}, end: {h:7,m:0} },
+    晚修: { start: {h:17,m:35}, late: {h:18,m:40}, end: {h:19,m:0} }
+};
 
-// ===================== 锁定功能 =====================
-function getLockKey() {
-    return `LOCK_${currentType}_${currentWeek}`;
-}
-function isLocked() {
-    return localStorage.getItem(getLockKey()) === "1";
-}
+// ===================== 存储 =====================
+function getRecords(){ return JSON.parse(localStorage.getItem("sign")) || [] }
+function setRecords(arr){ localStorage.setItem("sign", JSON.stringify(arr)) }
 
-function applyTheme() {
-    if (isLocked()) {
-        document.body.classList.add("locked-theme");
-    } else {
-        document.body.classList.remove("locked-theme");
-    }
-}
-
-function toggleLock() {
-    const key = getLockKey();
-    const locked = isLocked();
-
-    if (locked) {
-        // 解锁：需要密码
-        const input = prompt("请输入解锁密码：");
-        if (input !== UNLOCK_PASSWORD) {
-            alert("密码错误！");
-            return;
-        }
-        localStorage.removeItem(key);
-        alert("解锁成功！");
-    } else {
-        // 锁定
-        if (!confirm("确定锁定？锁定后无法签到/清空/修改，需密码解锁！")) return;
-        localStorage.setItem(key, "1");
-        alert("锁定成功！");
-    }
-
-    refreshLockBtn();
-    applyTheme();
-    refreshButtons();
-}
-
-function refreshLockBtn() {
-    const btn = document.getElementById("lockBtn");
-    if (isLocked()) {
-        btn.classList.add("locked");
-        btn.textContent = "🔒 已锁定";
-    } else {
-        btn.classList.remove("locked");
-        btn.textContent = "🔒 锁定当前界面";
-    }
-}
-
-// ===================== 工具 =====================
-function nowStr() {
+// ===================== 时间工具 =====================
+function now(){
     const d = new Date();
-    const m = String(d.getMonth()+1).padStart(2,0);
-    const day = String(d.getDate()).padStart(2,0);
-    const hh = String(d.getHours()).padStart(2,0);
-    const mm = String(d.getMinutes()).padStart(2,0);
-    return `${m}-${day} ${hh}:${mm}`;
+    return `${d.getMonth()+1}-${d.getDate()} ${String(d.getHours()).padStart(2,0)}:${String(d.getMinutes()).padStart(2,0)}`;
 }
-function getRecords() {
-    return JSON.parse(localStorage.getItem("signRecords")) || [];
+function getTimeObj(timeStr){
+    const [date, hm] = timeStr.split(' ');
+    const [h,m] = hm.split(':').map(Number);
+    return {h,m};
 }
-function setRecords(arr) {
-    localStorage.setItem("signRecords", JSON.stringify(arr));
+function toMinutes(t){ return t.h*60 + t.m }
+
+// 判断是否迟到
+function isLateNow(){
+    const d = new Date();
+    const nowMin = d.getHours()*60 + d.getMinutes();
+    const lateMin = toMinutes(TIME_RULE[currentType].late);
+    return nowMin > lateMin;
 }
 
-// ===================== 渲染值日生 =====================
-function renderDuty() {
+// 计算早到/迟到分钟数
+function calcDuration(timeStr, type){
+    const t = getTimeObj(timeStr);
+    const nowMin = toMinutes(t);
+    const rule = TIME_RULE[type];
+    const lateMin = toMinutes(rule.late);
+    if(nowMin <= lateMin) return { lateMin:0, earlyMin: lateMin - nowMin };
+    else return { lateMin: nowMin - lateMin, earlyMin:0 };
+}
+
+// ===================== 渲染 =====================
+function renderDuty(){
     const b = document.getElementById("dutyBody");
     b.innerHTML = "";
-    dutyEl = [];
     const jobs = dutyConfig[currentWeek];
-    for (let post in jobs) {
-        const name = jobs[post];
+    
+    for(let p in jobs){
+        const name = jobs[p];
         const tr = document.createElement("tr");
-
-        const tdPost = document.createElement("td");
-        tdPost.textContent = post;
-
-        const tdName = document.createElement("td");
-        tdName.textContent = name;
-
-        const tdBtn = document.createElement("td");
-        const btn = document.createElement("button");
-        btn.className = "sign-btn";
-        btn.textContent = "签到";
-        tdBtn.appendChild(btn);
-
-        const tdTime = document.createElement("td");
-        const t = document.createElement("div");
-        t.className = "time-text";
-        tdTime.appendChild(t);
-
-        tr.append(tdPost, tdName, tdBtn, tdTime);
+        tr.innerHTML = `<td>${p}</td><td>${name}</td><td><button class="sign-btn">签到</button></td><td><div class="time-text"></div></td>`;
         b.appendChild(tr);
-
-        const key = `DUTY_${currentType}_${currentWeek}_${post}_${name}`;
-        btn.onclick = () => doSign(key, name, btn, t);
-        dutyEl.push({ key, btn, time: t });
+        
+        const btn = tr.querySelector(".sign-btn");
+        const t = tr.querySelector(".time-text");
+        const key = `D_${currentType}_${currentWeek}_${p}_${name}`;
+        
+        btn.onclick = ()=>{
+            const list = getRecords();
+            if(list.some(i=>i.key===key)) return;
+            const late = isLateNow();
+            const time = now();
+            const dur = calcDuration(time, currentType);
+            list.push({key,name,type:currentType,week:currentWeek,time,late,...dur});
+            setRecords(list);
+            btn.classList.add("signed");
+            t.textContent = time;
+            renderRank();
+        }
     }
     refreshDuty();
-    refreshButtons();
 }
 
-// ===================== 渲染学生 =====================
-function renderStudents() {
+function renderStudents(){
     const g = document.getElementById("studentGrid");
     g.innerHTML = "";
-    studentEl = [];
-    studentList.forEach(name => {
+    
+    studentList.forEach(name=>{
         const item = document.createElement("div");
         item.className = "student-item";
-
-        const n = document.createElement("div");
-        n.className = "student-name";
-        n.textContent = name;
-
-        const btn = document.createElement("button");
-        btn.className = "student-btn";
-        btn.textContent = "签到";
-
-        const t = document.createElement("div");
-        t.className = "time-text";
-
-        item.append(n, btn, t);
+        item.innerHTML = `<div class="student-name">${name}</div><button class="student-btn">签到</button><div class="time-text"></div>`;
         g.appendChild(item);
-
-        const key = `STU_${currentType}_${currentWeek}_${name}`;
-        btn.onclick = () => doSign(key, name, btn, t);
-        studentEl.push({ key, btn, time: t });
+        
+        const btn = item.querySelector(".student-btn");
+        const t = item.querySelector(".time-text");
+        const key = `S_${currentType}_${currentWeek}_${name}`;
+        
+        btn.onclick = ()=>{
+            const list = getRecords();
+            if(list.some(i=>i.key===key)) return;
+            const late = isLateNow();
+            const time = now();
+            const dur = calcDuration(time, currentType);
+            list.push({key,name,type:currentType,week:currentWeek,time,late,...dur});
+            setRecords(list);
+            
+            btn.classList.add("signed");
+            if(late) btn.classList.add("late");
+            t.textContent = time;
+            if(late) item.classList.add("late");
+            
+            autoDuty(name);
+            renderRank();
+        }
     });
     refreshStudents();
-    refreshButtons();
 }
 
-// 统一禁用/启用按钮
-function refreshButtons() {
-    const locked = isLocked();
-    dutyEl.forEach(({ btn }) => btn.disabled = locked);
-    studentEl.forEach(({ btn }) => btn.disabled = locked);
-    document.querySelectorAll(".clear-btn").forEach(b => b.disabled = locked);
-}
-
-// ===================== 签到 =====================
-function doSign(key, name, btn, timeEl) {
-    if (isLocked()) {
-        alert("当前界面已锁定，无法签到！");
-        return;
+// 自动值日签到
+function autoDuty(stuName){
+    const jobs = dutyConfig[currentWeek];
+    for(let p in jobs){
+        if(jobs[p] === stuName){
+            const key = `D_${currentType}_${currentWeek}_${p}_${stuName}`;
+            const list = getRecords();
+            if(!list.some(i=>i.key===key)){
+                const late = isLateNow();
+                const time = now();
+                const dur = calcDuration(time, currentType);
+                list.push({key,name:stuName,type:currentType,week:currentWeek,time,late,...dur});
+                setRecords(list);
+            }
+        }
     }
-    const list = getRecords();
-    const has = list.some(x => x.key === key);
-    if (has) {
-        alert(name + " 今日" + currentType + "已签到！");
-        return;
-    }
-    const time = nowStr();
-    list.push({ key, name, type: currentType, week: currentWeek, time });
-    setRecords(list);
-    btn.classList.add("signed");
-    timeEl.textContent = time;
+    renderDuty();
 }
 
-// ===================== 刷新状态 =====================
-function refreshDuty() {
+// ===================== 刷新 =====================
+function refreshDuty(){
     const list = getRecords();
-    dutyEl.forEach(({ key, btn, time }) => {
-        const item = list.find(x => x.key === key);
-        if (item) {
+    document.querySelectorAll(".sign-btn").forEach(btn=>{
+        const row = btn.closest("tr");
+        const t = row.querySelector(".time-text");
+        const name = row.children[1].textContent;
+        const p = row.children[0].textContent;
+        const key = `D_${currentType}_${currentWeek}_${p}_${name}`;
+        const item = list.find(x=>x.key===key);
+        if(item){
             btn.classList.add("signed");
-            time.textContent = item.time;
-        } else {
-            btn.classList.remove("signed");
-            time.textContent = "";
+            t.textContent = item.time;
         }
     });
 }
-function refreshStudents() {
+
+function refreshStudents(){
     const list = getRecords();
-    studentEl.forEach(({ key, btn, time }) => {
-        const item = list.find(x => x.key === key);
-        if (item) {
+    document.querySelectorAll(".student-item").forEach(item=>{
+        const name = item.querySelector(".student-name").textContent;
+        const btn = item.querySelector(".student-btn");
+        const t = item.querySelector(".time-text");
+        const key = `S_${currentType}_${currentWeek}_${name}`;
+        const itemData = list.find(x=>x.key===key);
+        
+        if(itemData){
             btn.classList.add("signed");
-            time.textContent = item.time;
-        } else {
-            btn.classList.remove("signed");
-            time.textContent = "";
+            if(itemData.late) btn.classList.add("late");
+            t.textContent = itemData.time;
+            if(itemData.late) item.classList.add("late");
         }
     });
+}
+
+// 主题切换
+function changeTheme(){
+    if(currentType === "晚修"){
+        document.body.classList.add("night");
+    }else{
+        document.body.classList.remove("night");
+    }
+}
+
+// ===================== 排行榜 =====================
+function renderRank(){
+    const type = currentType;
+    const arr = [];
+    studentList.forEach(name=>{
+        const {ok,late} = stats(name,type);
+        arr.push({name,ok,late});
+    });
+    
+    const red = [...arr].sort((a,b)=>b.ok - a.ok).slice(0,10);
+    const black = [...arr].sort((a,b)=>b.late - a.late).slice(0,10);
+    
+    const redHtml = red.map((i,n)=>`${n+1}. ${i.name} · 早到 ${i.ok} 次`).join("<br>");
+    const blackHtml = black.map((i,n)=>`${n+1}. ${i.name} · 迟到 ${i.late} 次`).join("<br>");
+    
+    document.getElementById("redRank").innerHTML = redHtml || "暂无数据";
+    document.getElementById("blackRank").innerHTML = blackHtml || "暂无数据";
+}
+
+function renderAll(){
+    renderDuty();
+    renderStudents();
+    changeTheme();
+    renderRank();
 }
 
 // ===================== 切换 =====================
-document.querySelectorAll(".type-btn").forEach(btn => {
-    btn.onclick = () => {
-        document.querySelectorAll(".type-btn").forEach(b => b.classList.remove("active"));
+document.querySelectorAll(".type-btn").forEach(btn=>{
+    btn.onclick = ()=>{
+        document.querySelectorAll(".type-btn").forEach(b=>b.classList.remove("active"));
         btn.classList.add("active");
         currentType = btn.dataset.type;
-        renderDuty();
-        renderStudents();
-        refreshLockBtn();
-        applyTheme();
-    };
+        renderAll();
+    }
 });
-document.querySelectorAll(".week-btn").forEach(btn => {
-    btn.onclick = () => {
-        document.querySelectorAll(".week-btn").forEach(b => b.classList.remove("active"));
+
+document.querySelectorAll(".week-btn").forEach(btn=>{
+    btn.onclick = ()=>{
+        document.querySelectorAll(".week-btn").forEach(b=>b.classList.remove("active"));
         btn.classList.add("active");
         currentWeek = btn.dataset.week;
-        renderDuty();
-        renderStudents();
-        refreshLockBtn();
-        applyTheme();
-    };
+        renderAll();
+    }
 });
-document.getElementById("lockBtn").onclick = toggleLock;
 
 // ===================== 清空 =====================
-function clearToday() {
-    if (isLocked()) {
-        alert("当前界面已锁定，无法清空！");
-        return;
-    }
-    if (!confirm(`确定清空【${currentWeek}】${currentType}？`)) return;
+function clearToday(){
     let list = getRecords();
-    list = list.filter(x => !(x.week === currentWeek && x.type === currentType));
+    list = list.filter(x=>!(x.week===currentWeek && x.type===currentType));
     setRecords(list);
-    renderDuty();
-    renderStudents();
+    renderAll();
 }
-function clearAll() {
-    if (isLocked()) {
-        alert("当前界面已锁定，无法清空！");
-        return;
+
+// 带密码的清空全部
+function clearAllWithPassword(){
+    const inputPwd = prompt("请输入清空全部密码：");
+    if(inputPwd === null) return;
+    if(inputPwd === CLEAR_PASSWORD){
+        if(confirm("密码正确！确定清空所有数据？此操作不可恢复！")){
+            localStorage.removeItem("sign");
+            renderAll();
+            alert("已清空所有考勤数据！");
+        }
+    }else{
+        alert("密码错误，无法清空！");
     }
-    if (!confirm("确定清空全部？")) return;
-    localStorage.removeItem("signRecords");
-    renderDuty();
-    renderStudents();
+}
+
+// ===================== 统计 =====================
+function stats(name,type){
+    const list = getRecords().filter(x=>x.type===type && x.name===name);
+    let ok=0,late=0,no=0;
+    let totalEarly=0, totalLate=0;
+    weeks.forEach(w=>{
+        const item = list.find(x=>x.week===w);
+        if(!item) no++;
+        else if(item.late) { late++; totalLate += item.lateMin }
+        else { ok++; totalEarly += item.earlyMin }
+    });
+    return {ok,late,no,totalEarly,totalLate};
 }
 
 // ===================== 总表 =====================
-function showTotal(type) {
+function showTotal(type){
+    currentTotalType = type;
     const area = document.getElementById("totalArea");
     const title = document.getElementById("totalTitle");
     const head = document.getElementById("totalHead");
     const body = document.getElementById("totalBody");
+    const nightBtn = document.getElementById("nightExportBtn");
+    
     area.style.display = "block";
-    title.textContent = type + "考勤总表";
-
-    head.innerHTML = `<tr><th>类别</th><th>姓名</th>${weeks.map(w=>`<th>${w}</th>`).join("")}</tr>`;
+    title.textContent = type+" 考勤总表";
+    nightBtn.style.display = type==="晚修"?"inline-block":"none";
+    
+    head.innerHTML = `<tr><th>类型</th><th>姓名</th>${weeks.map(w=>`<th>${w}</th>`).join("")}<th>早到</th><th>迟到</th><th>未签</th><th>早到累计</th><th>迟到累计</th></tr>`;
     body.innerHTML = "";
-
-    const all = getRecords().filter(x => x.type === type);
-
-    weeks.forEach(week => {
-        const jobs = dutyConfig[week];
-        for (let post in jobs) {
-            const name = jobs[post];
-            const row = document.createElement("tr");
-            const cells = [`<td>值日生</td>`, `<td>${post}(${name})</td>`];
-            weeks.forEach(w => {
-                const k = `DUTY_${type}_${w}_${post}_${name}`;
-                const item = all.find(x => x.key === k);
-                cells.push(`<td>${item ? item.time : "未签到"}</td>`);
+    
+    const list = getRecords().filter(x=>x.type===type);
+    
+    weeks.forEach(w=>{
+        const jobs = dutyConfig[w];
+        for(let p in jobs){
+            const name = jobs[p];
+            const tr = document.createElement("tr");
+            let td = `<td>值日</td><td>${p}(${name})</td>`;
+            weeks.forEach(ww=>{
+                const item = list.find(x=>x.key===`D_${type}_${ww}_${p}_${name}`);
+                td += `<td>${item?item.time:"未签"}</td>`;
             });
-            row.innerHTML = cells.join("");
-            body.appendChild(row);
+            td += `<td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>`;
+            tr.innerHTML = td;
+            body.appendChild(tr);
         }
     });
-
-    studentList.forEach(name => {
-        const row = document.createElement("tr");
-        const cells = [`<td>学生</td>`, `<td>${name}</td>`];
-        weeks.forEach(w => {
-            const k = `STU_${type}_${w}_${name}`;
-            const item = all.find(x => x.key === k);
-            cells.push(`<td>${item ? item.time : "未签到"}</td>`);
+    
+    studentList.forEach(name=>{
+        const {ok,late,no,totalEarly,totalLate} = stats(name,type);
+        const tr = document.createElement("tr");
+        let td = `<td>学生</td><td>${name}</td>`;
+        weeks.forEach(ww=>{
+            const item = list.find(x=>x.key===`S_${type}_${ww}_${name}`);
+            td += `<td>${item?item.time:"未签"}</td>`;
         });
-        row.innerHTML = cells.join("");
-        body.appendChild(row);
+        td += `<td>${ok}</td><td>${late}</td><td>${no}</td><td>${totalEarly}分钟</td><td>${totalLate}分钟</td>`;
+        tr.innerHTML = td;
+        body.appendChild(tr);
     });
 }
 
-// ===================== 导出 =====================
-function exportTotal() {
-    alert("导出功能需要在线表格库支持，本地打开可用简易版：复制总表内容到Excel即可。");
+// ===================== 导出Excel =====================
+function exportExcel(){
+    const type = currentTotalType;
+    const list = getRecords().filter(x=>x.type===type);
+    let csv = "类型,姓名,"+weeks.join(",")+",早到,迟到,未签,早到累计,迟到累计\n";
+    
+    weeks.forEach(w=>{
+        const jobs = dutyConfig[w];
+        for(let p in jobs){
+            const name = jobs[p];
+            let line = `值日,${p}(${name})`;
+            weeks.forEach(ww=>{
+                const item = list.find(x=>x.key===`D_${type}_${ww}_${p}_${name}`);
+                line += `,${item?item.time:"未签"}`;
+            });
+            csv += line + ",-,-,-,-,-\n";
+        }
+    });
+    
+    studentList.forEach(name=>{
+        const {ok,late,no,totalEarly,totalLate} = stats(name,type);
+        let line = `学生,${name}`;
+        weeks.forEach(ww=>{
+            const item = list.find(x=>x.key===`S_${type}_${ww}_${name}`);
+            line += `,${item?item.time:"未签"}`;
+        });
+        csv += line + `,${ok},${late},${no},${totalEarly}分钟,${totalLate}分钟\n`;
+    });
+    
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));
+    a.download = `${type}考勤表.csv`;
+    a.click();
 }
 
 // ===================== 启动 =====================
-window.onload = function(){
-    renderDuty();
-    renderStudents();
-    refreshLockBtn();
-    applyTheme();
-};
+window.onload=()=>{ renderAll() }
 </script>
 </body>
 </html>
