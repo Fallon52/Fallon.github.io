@@ -11,11 +11,16 @@
             padding: 0;
             box-sizing: border-box;
             font-family: "Microsoft YaHei", sans-serif;
+            transition: all 0.3s ease;
         }
 
         body {
             padding: 20px;
             background-color: #fdf2f8;
+        }
+        /* 锁定后全局蓝色主题 */
+        body.locked-mode {
+            background-color: #f0f7ff;
         }
 
         /* 登录页面样式 */
@@ -28,11 +33,18 @@
             box-shadow: 0 8px 24px rgba(255, 105, 180, 0.2);
             text-align: center;
         }
+        body.locked-mode .login-container {
+            box-shadow: 0 8px 24px rgba(30, 136, 229, 0.2);
+        }
         .login-title {
             color: #9f2b68;
             font-size: 32px;
             margin-bottom: 30px;
             text-shadow: 1px 1px 3px rgba(255, 182, 193, 0.6);
+        }
+        body.locked-mode .login-title {
+            color: #1565c0;
+            text-shadow: 1px 1px 3px rgba(144, 202, 249, 0.6);
         }
         .login-input {
             width: 100%;
@@ -41,6 +53,9 @@
             border: 2px solid #ffb6c1;
             border-radius: 10px;
             font-size: 16px;
+        }
+        body.locked-mode .login-input {
+            border-color: #90caf9;
         }
         .login-checkbox {
             display: flex;
@@ -63,9 +78,15 @@
             margin-top: 10px;
             transition: all 0.2s;
         }
+        body.locked-mode .login-btn {
+            background: #1976d2;
+        }
         .login-btn:hover {
             background: #d63384;
             transform: translateY(-2px);
+        }
+        body.locked-mode .login-btn:hover {
+            background: #0d47a1;
         }
         .error-tip {
             color: red;
@@ -90,8 +111,13 @@
             text-shadow: 2px 2px 5px rgba(255, 182, 193, 0.6);
             margin-bottom: 10px;
         }
+        body.locked-mode .title {
+            color: #1565c0;
+            text-shadow: 2px 2px 5px rgba(144, 202, 249, 0.6);
+        }
+        /* 统计面板默认隐藏 */
         .stats-panel {
-            display: flex;
+            display: none;
             flex-wrap: wrap;
             gap: 20px;
             padding: 15px;
@@ -99,6 +125,12 @@
             border-radius: 15px;
             box-shadow: 0 4px 12px rgba(255, 105, 180, 0.15);
             border: 1px solid #ffc2d1;
+            position: relative;
+        }
+        body.locked-mode .stats-panel {
+            background: #e3f2fd;
+            box-shadow: 0 4px 12px rgba(30, 136, 229, 0.15);
+            border-color: #bbdefb;
         }
         .stats-card {
             flex: 1;
@@ -108,6 +140,9 @@
             background: #ffffff;
             border: 1px solid #ffb6c1;
         }
+        body.locked-mode .stats-card {
+            border-color: #90caf9;
+        }
         .stats-card h3 {
             color: #d63384;
             margin-bottom: 10px;
@@ -115,28 +150,47 @@
             border-bottom: 2px solid #ff69b4;
             font-size: 18px;
         }
+        body.locked-mode .stats-card h3 {
+            color: #1976d2;
+            border-bottom: 2px solid #1976d2;
+        }
         .stats-row {
             display: flex;
             justify-content: space-between;
             padding: 6px 0;
             border-bottom: 1px dashed #ffe4e1;
         }
+        body.locked-mode .stats-row {
+            border-bottom: 1px dashed #bbdefb;
+        }
         .stats-label {
             color: #8b4513;
             font-weight: 500;
+        }
+        body.locked-mode .stats-label {
+            color: #0d47a1;
         }
         .stats-value {
             color: #9f2b68;
             font-weight: bold;
         }
+        body.locked-mode .stats-value {
+            color: #1565c0;
+        }
         .completed-value {
             color: #ff1493;
+        }
+        body.locked-mode .completed-value {
+            color: #2196f3;
         }
         .incomplete-value {
             color: #ff8c00;
         }
         .rate-value {
             color: #c71585;
+        }
+        body.locked-mode .rate-value {
+            color: #1976d2;
         }
         .group-rate-panel {
             display: flex;
@@ -151,6 +205,9 @@
             background: #ffe6f2;
             border-radius: 8px;
             text-align: center;
+        }
+        body.locked-mode .group-rate-item {
+            background: #e3f2fd;
         }
         .btn-area {
             display: flex;
@@ -175,9 +232,16 @@
             box-shadow: 0 3px 6px rgba(255, 105, 180, 0.2);
             transition: all 0.2s;
         }
+        body.locked-mode .week-btn {
+            background-color: #1976d2;
+            box-shadow: 0 3px 6px rgba(30, 136, 229, 0.2);
+        }
         .week-btn.active {
             background-color: #d63384;
             transform: translateY(-2px);
+        }
+        body.locked-mode .week-btn.active {
+            background-color: #0d47a1;
         }
         .day-switch-panel {
             display: flex;
@@ -196,10 +260,18 @@
             font-weight: bold;
             transition: all 0.2s;
         }
+        body.locked-mode .day-btn {
+            background-color: #90caf9;
+            color: #1565c0;
+        }
         .day-btn.active {
             background-color: #ff69b4;
             color: white;
             transform: translateY(-2px);
+        }
+        body.locked-mode .day-btn.active {
+            background-color: #1976d2;
+            color: white;
         }
         .bottom-func-panel {
             display: flex;
@@ -211,6 +283,10 @@
             background: #fff0f6;
             border-radius: 15px;
             border: 1px solid #ffb6c1;
+        }
+        body.locked-mode .bottom-func-panel {
+            background: #e3f2fd;
+            border-color: #90caf9;
         }
         .func-btn {
             padding: 12px 25px;
@@ -225,14 +301,50 @@
         .lock-btn {
             background-color: #ff85c1;
         }
+        body.locked-mode .lock-btn {
+            background-color: #42a5f5;
+        }
         .export-btn {
             background-color: #ff69b4;
+        }
+        body.locked-mode .export-btn {
+            background-color: #1976d2;
         }
         .clear-btn {
             background-color: #ff9eaf;
         }
+        body.locked-mode .clear-btn {
+            background-color: #64b5f6;
+        }
         .reset-btn {
             background-color: #ff6b8b;
+        }
+        body.locked-mode .reset-btn {
+            background-color: #2196f3;
+        }
+        /* 新增：统计按钮 */
+        .stats-toggle-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            background-color: #d63384;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 3px 6px rgba(255, 105, 180, 0.2);
+            transition: all 0.2s;
+        }
+        body.locked-mode .stats-toggle-btn {
+            background-color: #1565c0;
+            box-shadow: 0 3px 6px rgba(30, 136, 229, 0.2);
+        }
+        .stats-toggle-btn:hover {
+            background-color: #9f2b68;
+            transform: translateY(-2px);
+        }
+        body.locked-mode .stats-toggle-btn:hover {
+            background-color: #0d47a1;
         }
         .day-subject-panel {
             display: flex;
@@ -245,6 +357,10 @@
             justify-content: center;
             border: 1px solid #ffc2d1;
         }
+        body.locked-mode .day-subject-panel {
+            background: #e3f2fd;
+            border-color: #bbdefb;
+        }
         .subject-check-item {
             display: flex;
             align-items: center;
@@ -254,14 +370,23 @@
             border-radius: 20px;
             border: 1px solid #ffb6c1;
         }
+        body.locked-mode .subject-check-item {
+            border-color: #90caf9;
+        }
         .subject-check-item input {
             width: 18px;
             height: 18px;
             accent-color: #ff69b4;
         }
+        body.locked-mode .subject-check-item input {
+            accent-color: #1976d2;
+        }
         .subject-check-item label {
             color: #9f2b68;
             font-weight: 500;
+        }
+        body.locked-mode .subject-check-item label {
+            color: #1565c0;
         }
         .student-complete-btn {
             padding: 6px 12px;
@@ -274,12 +399,21 @@
             margin-left: 8px;
             transition: all 0.2s;
         }
+        body.locked-mode .student-complete-btn {
+            background-color: #42a5f5;
+        }
         .student-complete-btn:hover {
             background-color: #ff69b4;
             transform: scale(1.05);
         }
+        body.locked-mode .student-complete-btn:hover {
+            background-color: #1976d2;
+        }
+        /* 修复：表格容器滚动时表头固定 */
         .table-container {
             overflow-x: auto;
+            max-height: 65vh;
+            position: relative;
         }
         table {
             width: 100%;
@@ -288,6 +422,10 @@
             box-shadow: 0 4px 12px rgba(255, 105, 180, 0.1);
             border-radius: 10px;
             overflow: hidden;
+            position: relative;
+        }
+        body.locked-mode table {
+            box-shadow: 0 4px 12px rgba(30, 136, 229, 0.1);
         }
         th, td {
             border: 1px solid #ffd1dc;
@@ -295,12 +433,20 @@
             text-align: center;
             min-width: 70px;
         }
+        body.locked-mode th, body.locked-mode td {
+            border-color: #bbdefb;
+        }
+        /* 核心修复：表头固定在顶部 */
         th {
             background-color: #ff69b4;
             color: white;
             position: sticky;
             top: 0;
+            z-index: 100;
             font-weight: bold;
+        }
+        body.locked-mode th {
+            background-color: #1976d2;
         }
         td.group-col {
             background-color: #d63384;
@@ -310,6 +456,9 @@
             left: 0;
             z-index: 10;
         }
+        body.locked-mode td.group-col {
+            background-color: #0d47a1;
+        }
         td.id-col {
             background-color: #ff85c1;
             color: white;
@@ -318,6 +467,9 @@
             left: 80px;
             z-index: 10;
             min-width: 60px;
+        }
+        body.locked-mode td.id-col {
+            background-color: #42a5f5;
         }
         td.name-col {
             background-color: #ffe4e1;
@@ -332,6 +484,9 @@
             gap: 6px;
             flex-wrap: wrap;
         }
+        body.locked-mode td.name-col {
+            background-color: #e3f2fd;
+        }
         .task-box {
             width: 35px;
             height: 35px;
@@ -345,6 +500,9 @@
             margin: 0 auto;
             transition: all 0.2s;
         }
+        body.locked-mode .task-box {
+            border-color: #90caf9;
+        }
         .task-box.locked {
             cursor: not-allowed;
             opacity: 0.8;
@@ -355,20 +513,35 @@
             transform: scale(1.1);
             border-color: #ff69b4;
         }
+        body.locked-mode .task-box:hover:not(.locked) {
+            border-color: #1976d2;
+        }
         .completed {
             background-color: #ff1493;
             border-color: #d63384;
             color: white;
+        }
+        body.locked-mode .completed {
+            background-color: #2196f3;
+            border-color: #1976d2;
         }
         .all-complete {
             background-color:#ffe6f2 !important;
             color:#d63384 !important;
             font-weight:bold;
         }
+        body.locked-mode .all-complete {
+            background-color:#e3f2fd !important;
+            color:#1976d2 !important;
+        }
         .incomplete {
             background-color:#fff0f5 !important;
             color:#ff4500 !important;
             font-weight:bold;
+        }
+        body.locked-mode .incomplete {
+            background-color:#f0f7ff !important;
+            color:#d32f2f !important;
         }
         .week-content { display: none; }
         .week-content.active { display: block; }
@@ -401,6 +574,9 @@
             border: 2px solid #ffb6c1;
             border-radius: 8px;
         }
+        body.locked-mode .modal-input {
+            border-color: #90caf9;
+        }
         .modal-btn {
             padding: 10px 25px;
             border: none;
@@ -410,6 +586,9 @@
             font-size: 16px;
             cursor: pointer;
             margin: 0 10px;
+        }
+        body.locked-mode .modal-btn {
+            background: #1976d2;
         }
         .locked-tag {
             color: red;
@@ -435,7 +614,13 @@
     <!-- 主内容区（默认隐藏） -->
     <div class="container" id="mainContainer">
         <h1 class="title">🎀 初二3班作业登记 🎀</h1>
-        <div class="stats-panel">
+        
+        <!-- 新增：统计按钮 -->
+        <div style="text-align:center; margin-bottom:10px">
+            <button class="stats-toggle-btn" onclick="toggleStatsPanel()">📊 打开/关闭 统计面板</button>
+        </div>
+
+        <div class="stats-panel" id="statsPanel">
             <div class="stats-card">
                 <h3>📊 第<span id="cwWeek">1</span>周·<span id="cwDay">周一</span> 当日统计
                     <span id="dayLockedTag" class="locked-tag"></span>
@@ -455,7 +640,15 @@
                 <h3>🌟 本月 · 各科完成统计</h3>
                 <div id="monthSubjectStats"></div>
             </div>
+            <!-- 新增：学生个人未完成统计 -->
+            <div class="stats-card" style="min-width:350px">
+                <h3>👧👦 学生未完成作业统计</h3>
+                <div style="max-height:350px; overflow-y:auto;">
+                    <div id="studentIncompleteStats"></div>
+                </div>
+            </div>
         </div>
+
         <div class="btn-area">
             <div class="week-switch-panel">
                 <button class="week-btn active" onclick="switchWeek(1)">🌸第1周🌸</button>
@@ -633,8 +826,8 @@
         <div class="bottom-func-panel">
             <button class="func-btn lock-btn" onclick="toggleLockDay()">🔒 锁定/解锁当日</button>
             <button class="func-btn export-btn" onclick="exportToExcel()">📤 导出Excel</button>
-            <button class="func-btn clear-btn" onclick="showPasswordModal('clear')">🗑️ 清空当日</button>
-            <button class="func-btn reset-btn" onclick="showPasswordModal('reset')">🔄 重置全部</button>
+            <button class="func-btn clear-btn" onclick="clearCurrentDay()">🗑️ 清空当日</button>
+            <button class="func-btn reset-btn" onclick="resetAll()">🔄 重置全部</button>
         </div>
     </div>
 
@@ -674,23 +867,25 @@
             SUBJECT_SELECTIONS: "hw_subject_selections" // 学科勾选状态
         };
 
+        // 新增：切换统计面板显示/隐藏
+        function toggleStatsPanel() {
+            const panel = document.getElementById("statsPanel");
+            panel.style.display = panel.style.display === "flex" ? "none" : "flex";
+        }
+
         // ========== 新增：页面加载时自动登录检查 ==========
         window.onload = function () {
-            // 检查自动登录
             checkAutoLogin();
-            // 初始化登录页（填充记住的密码）
             initLoginPage();
         };
 
         // ========== 新增：登录核心逻辑 ==========
         function initLoginPage() {
-            // 读取记住的密码
             const rememberPwd = localStorage.getItem(STORAGE_KEYS.LOGIN_REMEMBER) === "true";
             const autoLogin = localStorage.getItem(STORAGE_KEYS.LOGIN_AUTO) === "true";
             const savedAccount = localStorage.getItem(STORAGE_KEYS.LOGIN_ACCOUNT) || "";
             const savedPwd = localStorage.getItem(STORAGE_KEYS.LOGIN_PWD) || "";
 
-            // 填充表单
             document.getElementById("loginAccount").value = savedAccount;
             document.getElementById("loginPwd").value = rememberPwd ? savedPwd : "";
             document.getElementById("rememberPwd").checked = rememberPwd;
@@ -703,7 +898,6 @@
                 const savedAccount = localStorage.getItem(STORAGE_KEYS.LOGIN_ACCOUNT) || "";
                 const savedPwd = localStorage.getItem(STORAGE_KEYS.LOGIN_PWD) || "";
                 if (savedAccount === LOGIN_ACCOUNT && savedPwd === LOGIN_PWD) {
-                    // 自动登录成功，进入主页面
                     enterMainPage();
                 }
             }
@@ -716,13 +910,11 @@
             const autoLogin = document.getElementById("autoLogin").checked;
             const errorTip = document.getElementById("loginError");
 
-            // 验证账号密码
             if (account !== LOGIN_ACCOUNT || pwd !== LOGIN_PWD) {
                 errorTip.style.display = "block";
                 return;
             }
 
-            // 保存登录状态
             localStorage.setItem(STORAGE_KEYS.LOGIN_REMEMBER, rememberPwd);
             localStorage.setItem(STORAGE_KEYS.LOGIN_AUTO, autoLogin);
             localStorage.setItem(STORAGE_KEYS.LOGIN_ACCOUNT, account);
@@ -732,22 +924,17 @@
                 localStorage.removeItem(STORAGE_KEYS.LOGIN_PWD);
             }
 
-            // 进入主页面
             enterMainPage();
         }
 
         function enterMainPage() {
-            // 隐藏登录页，显示主内容
             document.getElementById("loginPage").style.display = "none";
             document.getElementById("mainContainer").style.display = "flex";
-            
-            // 初始化作业登记系统
             initHomeworkSystem();
         }
 
         // ========== 原有逻辑改造（增加数据持久化） ==========
         function initHomeworkSystem() {
-            // 学生/小组/科目配置（保留原有）
             const studentIdMap = {
                 "1": "蔡钧浩", "2": "蔡文靖", "3": "陈嘉俊", "4": "陈宇鹏", "5": "陈卓熙", "6": "陈紫荧",
                 "7": "邓浩海", "8": "杜焯浩", "9": "段芸洁", "10": "冯昱钧", "11": "甘诚鑫", "12": "甘婷方",
@@ -779,46 +966,33 @@
             };
             const subjectNames = ["语文", "数学", "英语", "政治", "历史", "物理", "生物", "地理", "周记"];
 
-            // ========== 新增：读取本地存储数据 ==========
-            // 锁定状态
             let lockedDays = JSON.parse(localStorage.getItem(STORAGE_KEYS.LOCKED_DAYS) || "{}");
-            // 学科勾选状态
             let daySubjectSelections = JSON.parse(localStorage.getItem(STORAGE_KEYS.SUBJECT_SELECTIONS) || "{}");
-            // 作业完成数据
             let homeworkData = JSON.parse(localStorage.getItem(STORAGE_KEYS.HOMEWORK_DATA) || "{}");
 
-            // 初始化默认学科勾选状态
             initAllDaySubjectPanels(daySubjectSelections, subjectNames);
-            // 初始化所有表格
             for (let w = 1; w <= 4; w++) {
                 for (let d = 1; d <= 5; d++) {
                     buildTable(w, d, groupStudents, nameToIdMap, subjectNames, lockedDays, homeworkData);
                 }
             }
 
-            // 刷新统计
             refreshAll(groupStudents, subjectNames, lockedDays, homeworkData);
             updateLockStatusDisplay(lockedDays);
+            // 初始化锁定主题
+            updateLockTheme(lockedDays);
 
-            // ========== 新增：自动保存逻辑 ==========
-            // 监听勾选框变化，自动保存
             document.addEventListener("click", function(e) {
                 if (e.target.classList.contains("task-box") && !e.target.classList.contains("locked")) {
-                    // 更新内存数据
                     updateHomeworkData(e.target, homeworkData);
-                    // 保存到本地存储
                     saveHomeworkData(homeworkData, lockedDays, daySubjectSelections);
-                    // 刷新统计
                     refreshAll(groupStudents, subjectNames, lockedDays, homeworkData);
                 }
             });
 
-            // 一键完成按钮监听
             document.addEventListener("click", function(e) {
                 if (e.target.classList.contains("student-complete-btn") && !e.target.disabled) {
-                    // 延迟保存（等DOM更新完成）
                     setTimeout(() => {
-                        // 重新读取所有勾选状态并保存
                         saveAllHomeworkData(homeworkData, groupStudents);
                         saveHomeworkData(homeworkData, lockedDays, daySubjectSelections);
                         refreshAll(groupStudents, subjectNames, lockedDays, homeworkData);
@@ -826,7 +1000,6 @@
                 }
             });
 
-            // ========== 原有功能改造（增加数据持久化） ==========
             window.switchWeek = function(w) {
                 currentWeek = w;
                 document.querySelectorAll(".week-content").forEach(el => el.classList.remove("active"));
@@ -850,6 +1023,7 @@
                 
                 refreshAll(groupStudents, subjectNames, lockedDays, homeworkData);
                 updateLockStatusDisplay(lockedDays);
+                updateLockTheme(lockedDays);
             };
 
             window.doDayOne = function(week, day, name) {
@@ -869,39 +1043,25 @@
                         });
                     }
                 });
-                // 保存数据
                 saveAllHomeworkData(homeworkData, groupStudents);
                 saveHomeworkData(homeworkData, lockedDays, daySubjectSelections);
                 refreshAll(groupStudents, subjectNames, lockedDays, homeworkData);
             };
 
-            window.doWeekOne = function(week, name) {
-                for (let d = 1; d <= 5; d++) {
-                    const key = `w${week}d${d}`;
-                    const isLocked = lockedDays[key] || false;
-                    if (isLocked) continue;
-                    
-                    const trs = document.querySelectorAll(`#w${week}d${d} tr`);
-                    trs.forEach(tr => {
-                        if (tr.dataset.name === name) {
-                            tr.querySelectorAll(".task-box").forEach(b => {
-                                b.classList.add("completed");
-                                b.textContent = "✓";
-                            });
-                        }
-                    });
+            // 新增：锁定/解锁时切换全局主题色
+            function updateLockTheme(lockedDays) {
+                const key = `w${currentWeek}d${currentDay}`;
+                if (lockedDays[key]) {
+                    document.body.classList.add("locked-mode");
+                } else {
+                    document.body.classList.remove("locked-mode");
                 }
-                // 保存数据
-                saveAllHomeworkData(homeworkData, groupStudents);
-                saveHomeworkData(homeworkData, lockedDays, daySubjectSelections);
-                refreshAll(groupStudents, subjectNames, lockedDays, homeworkData);
-            };
+            }
 
             window.toggleLockDay = function() {
                 const key = `w${currentWeek}d${currentDay}`;
                 lockedDays[key] = !lockedDays[key];
                 
-                // 更新样式和交互
                 const taskBoxes = document.querySelectorAll(`#w${currentWeek}d${currentDay} .task-box`);
                 const completeBtns = document.querySelectorAll(`#w${currentWeek}d${currentDay} .student-complete-btn`);
                 
@@ -925,9 +1085,9 @@
                     btn.disabled = lockedDays[key];
                 });
                 
-                // 保存锁定状态
                 saveHomeworkData(homeworkData, lockedDays, daySubjectSelections);
                 updateLockStatusDisplay(lockedDays);
+                updateLockTheme(lockedDays);
                 alert(lockedDays[key] ? "已锁定当日数据，无法修改！" : "已解锁当日数据，可以修改！");
             };
 
@@ -952,61 +1112,56 @@
                 closePasswordModal();
                 
                 if (currentPasswordAction === "clear") {
-                    clearCurrentDay(homeworkData, lockedDays, daySubjectSelections);
+                    clearCurrentDay();
                 } else if (currentPasswordAction === "reset") {
-                    resetAll(homeworkData, lockedDays, daySubjectSelections, subjectNames);
+                    resetAll();
                 }
             };
 
+            // ========== 清空当日（无密码，直接执行） ==========
             window.clearCurrentDay = function() {
                 const key = `w${currentWeek}d${currentDay}`;
                 const isLocked = lockedDays[key] || false;
+                
                 if (isLocked) {
                     alert("该日期已锁定，无法清空！");
                     return;
                 }
+                if (!confirm(`确定清空第${currentWeek}周${dayNames[currentDay]}的所有记录？`)) return;
+
+                // 清空数据
+                homeworkData[key] = {};
                 
-                if (!confirm(`确定清空第${currentWeek}周${dayNames[currentDay]}？`)) return;
-                document.querySelectorAll(`#w${currentWeek}d${currentDay} .task-box`).forEach(b => {
-                    b.classList.remove("completed");
-                    b.textContent = "";
+                // 强制清空界面所有勾选
+                document.querySelectorAll(`#${key} .task-box`).forEach(box => {
+                    box.classList.remove("completed");
+                    box.textContent = "";
                 });
-                // 保存清空后的数据
-                saveAllHomeworkData(homeworkData, groupStudents);
+
+                // 保存并刷新
                 saveHomeworkData(homeworkData, lockedDays, daySubjectSelections);
                 refreshAll(groupStudents, subjectNames, lockedDays, homeworkData);
+                alert("✅ 当日记录已清空！");
             };
 
+            // ========== 重置全部（无密码，直接执行） ==========
             window.resetAll = function() {
-                if (!confirm("确定清空所有数据？")) return;
-                
-                // 重置所有数据
-                lockedDays = {};
-                daySubjectSelections = {};
+                if (!confirm("确定要重置所有日期的作业记录吗？此操作不可恢复！")) return;
+
+                // 清空所有数据
                 homeworkData = {};
-                initAllDaySubjectPanels(daySubjectSelections, subjectNames);
+                lockedDays = {};
                 
-                // 重置DOM
-                document.querySelectorAll(".task-box").forEach(b => {
-                    b.classList.remove("completed", "locked");
-                    b.textContent = "";
-                    b.onclick = () => {
-                        b.classList.toggle("completed");
-                        b.textContent = b.classList.contains("completed") ? "✓" : "";
-                        updateHomeworkData(b, homeworkData);
-                        saveHomeworkData(homeworkData, lockedDays, daySubjectSelections);
-                        refreshAll(groupStudents, subjectNames, lockedDays, homeworkData);
-                    };
+                // 强制清空所有勾选
+                document.querySelectorAll(".task-box").forEach(box => {
+                    box.classList.remove("completed");
+                    box.textContent = "";
                 });
-                document.querySelectorAll(".student-complete-btn").forEach(btn => {
-                    btn.disabled = false;
-                });
-                
-                // 保存重置后的数据
+
+                // 保存并刷新
                 saveHomeworkData(homeworkData, lockedDays, daySubjectSelections);
-                updateLockStatusDisplay(lockedDays);
                 refreshAll(groupStudents, subjectNames, lockedDays, homeworkData);
-                alert("所有数据已重置！");
+                alert("✅ 所有作业记录已重置！");
             };
 
             window.exportToExcel = function() {
@@ -1029,7 +1184,7 @@
                         const idCell = tr.querySelector(".id-col");
                         row.push(idCell.textContent || "");
                         const nameCell = tr.querySelector(".name-col");
-                        const name = nameCell.textContent.replace(/🎉当日全完成|💝本周全完成/g, "").trim();
+                        const name = nameCell.textContent.replace(/🎉当日全完成/g, "").trim();
                         row.push(name);
                         
                         const boxes = tr.querySelectorAll(".task-box");
@@ -1052,7 +1207,6 @@
                 daySubjectSelections[key] = daySubjectSelections[key] || {};
                 daySubjectSelections[key][subject] = isChecked;
                 
-                // 保存学科勾选状态
                 saveHomeworkData(homeworkData, lockedDays, daySubjectSelections);
                 
                 if (week === currentWeek && day === currentDay) {
@@ -1061,8 +1215,49 @@
             };
         }
 
-        // ========== 新增：数据持久化核心函数 ==========
-        // 初始化学科勾选面板
+        // ========== 新增：学生未完成统计核心函数 ==========
+        function updateStudentIncompleteStats(groupStudents, subjectNames, homeworkData) {
+            const container = document.getElementById("studentIncompleteStats");
+            const subjectSelections = JSON.parse(localStorage.getItem(STORAGE_KEYS.SUBJECT_SELECTIONS) || "{}");
+            const allStudents = Object.values(groupStudents).flat();
+            let html = "";
+
+            allStudents.forEach(name => {
+                let weekIncomplete = 0;
+                let monthIncomplete = 0;
+
+                // 统计当月（4周）
+                for (let w = 1; w <= 4; w++) {
+                    for (let d = 1; d <= 5; d++) {
+                        const key = `w${w}d${d}`;
+                        const isFriday = d === 5;
+                        const maxSub = isFriday ? 9 : 8;
+                        const daySub = subjectSelections[key] || {};
+                        const stuData = homeworkData[key]?.[name] || {};
+
+                        for (let s = 0; s < maxSub; s++) {
+                            const subName = subjectNames[s];
+                            if (daySub[subName] && stuData[subName] === false) {
+                                monthIncomplete++;
+                                if (w === currentWeek) weekIncomplete++;
+                            }
+                        }
+                    }
+                }
+
+                html += `
+                    <div class="stats-row">
+                        <span class="stats-label">${name}：</span>
+                        <span class="stats-value incomplete-value">当周未完成 ${weekIncomplete} 次</span>
+                        <span class="stats-value" style="color:#9f2b68">| 当月未完成 ${monthIncomplete} 次</span>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // ========== 数据持久化核心函数 ==========
         function initAllDaySubjectPanels(daySubjectSelections, subjectNames) {
             for (let w = 1; w <= 4; w++) {
                 for (let d = 1; d <= 5; d++) {
@@ -1079,7 +1274,6 @@
             }
         }
 
-        // 渲染学科勾选面板
         function renderSubjectPanel(week, day, daySubjectSelections, subjectNames) {
             const key = `w${week}d${day}`;
             const panel = document.getElementById(`subjectPanel_${key}`);
@@ -1102,7 +1296,6 @@
             });
         }
 
-        // 构建表格（恢复保存的勾选状态）
         function buildTable(week, day, groupStudents, nameToIdMap, subjectNames, lockedDays, homeworkData) {
             const sid = `w${week}d${day}`;
             const tbody = document.getElementById(sid);
@@ -1133,21 +1326,19 @@
 
                     const tdN = document.createElement("td");
                     tdN.className = "name-col";
+                    // 删除本周全完成按钮
                     tdN.innerHTML = `
                         ${name}
                         <button class="student-complete-btn" onclick="doDayOne(${week},${day},'${name}')" ${isLocked ? "disabled" : ""}>🎉当日全完成</button>
-                        <button class="student-complete-btn" onclick="doWeekOne(${week},'${name}')" ${isLocked ? "disabled" : ""}>💝本周全完成</button>
                     `;
                     tr.appendChild(tdN);
 
-                    // 恢复保存的勾选状态
                     const studentHomework = homeworkData[sid]?.[name] || {};
                     for (let k = 0; k < subjCount; k++) {
                         const td = document.createElement("td");
                         const box = document.createElement("div");
                         const subject = subjectNames[k];
                         
-                        // 恢复勾选状态
                         if (studentHomework[subject]) {
                             box.classList.add("completed");
                             box.textContent = "✓";
@@ -1174,7 +1365,6 @@
             }
         }
 
-        // 更新单条作业数据
         function updateHomeworkData(box, homeworkData) {
             const tr = box.closest("tr");
             const week = tr.dataset.w;
@@ -1183,16 +1373,12 @@
             const subject = box.dataset.subject;
             const key = `w${week}d${day}`;
             
-            // 初始化层级
             homeworkData[key] = homeworkData[key] || {};
             homeworkData[key][name] = homeworkData[key][name] || {};
-            // 更新状态
             homeworkData[key][name][subject] = box.classList.contains("completed");
         }
 
-        // 保存所有作业数据（批量）
         function saveAllHomeworkData(homeworkData, groupStudents) {
-            // 遍历所有日期和学生，同步DOM状态到内存
             for (let w = 1; w <= 4; w++) {
                 for (let d = 1; d <= 5; d++) {
                     const key = `w${w}d${d}`;
@@ -1215,23 +1401,23 @@
             }
         }
 
-        // 保存所有数据到本地存储
         function saveHomeworkData(homeworkData, lockedDays, daySubjectSelections) {
             localStorage.setItem(STORAGE_KEYS.HOMEWORK_DATA, JSON.stringify(homeworkData));
             localStorage.setItem(STORAGE_KEYS.LOCKED_DAYS, JSON.stringify(lockedDays));
             localStorage.setItem(STORAGE_KEYS.SUBJECT_SELECTIONS, JSON.stringify(daySubjectSelections));
         }
 
-        // 刷新所有统计
         function refreshAll(groupStudents, subjectNames, lockedDays, homeworkData) {
             updateDayRowColor(groupStudents, subjectNames, homeworkData);
             updateDayStats(groupStudents, subjectNames, homeworkData);
             updateWeekSubjectStats(groupStudents, subjectNames, homeworkData);
             updateMonthSubjectStats(groupStudents, subjectNames, homeworkData);
             updateGroupRateStats(groupStudents, subjectNames, homeworkData);
+            // 新增：刷新学生个人统计
+            updateStudentIncompleteStats(groupStudents, subjectNames, homeworkData);
         }
 
-        // ========== 原有统计函数改造（适配保存的数据） ==========
+        // ========== 原有统计函数改造 ==========
         function updateDayRowColor(groupStudents, subjectNames, homeworkData) {
             const key = `w${currentWeek}d${currentDay}`;
             const trs = document.querySelectorAll(`#${key} tr`);
