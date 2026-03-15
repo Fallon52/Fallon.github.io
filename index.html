@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏫 班级管理系统</title>
+    <title>🏫 初二3班 管理系统</title>
     <style>
         * {
             margin: 0;
@@ -13,93 +13,274 @@
         }
 
         body {
-            background: linear-gradient(135deg, #fdf2f8 0%, #fff5f8 100%);
+            background-color: #f5f7fa;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
+        }
+
+        /* 标题栏样式 */
+        .header {
+            background-color: #2e6da4;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* 导航按钮区域 */
+        .nav-container {
+            flex: 1;
+            display: flex;
             justify-content: center;
+            align-items: center;
+            gap: 40px;
+            padding: 40px 20px;
+        }
+
+        .nav-btn {
+            width: 200px;
+            height: 120px;
+            background-color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            color: #2e6da4;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+            background-color: #f0f8ff;
+        }
+
+        .nav-btn i {
+            font-size: 36px;
+        }
+
+        /* 公告栏样式 */
+        .notice-section {
+            padding: 20px;
+            background-color: #fff;
+            margin: 0 20px 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .notice-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notice-edit {
+            padding: 5px 10px;
+            background-color: #2e6da4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .notice-content {
+            min-height: 100px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #fafafa;
+            color: #555;
+            line-height: 1.6;
+            cursor: pointer;
+        }
+
+        /* 全屏公告弹窗 */
+        .fullscreen-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
             padding: 20px;
         }
 
-        .nav-container {
-            text-align: center;
-            max-width: 600px;
-            width: 100%;
+        .modal-content {
+            width: 90%;
+            max-width: 800px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
-        .main-title {
-            font-size: 42px;
-            color: #d63384;
-            margin-bottom: 40px;
-            text-shadow: 2px 2px 5px rgba(255, 182, 193, 0.6);
-        }
-
-        .card-box {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .nav-card {
-            width: 240px;
-            height: 300px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 8px 24px rgba(255, 105, 180, 0.2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 30px;
+            color: white;
             cursor: pointer;
-            transition: all 0.3s;
-            border: 3px solid #ffb6c1;
-            text-decoration: none;
         }
 
-        .nav-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(255, 105, 180, 0.3);
-            border-color: #ff69b4;
+        .modal-notice-content {
+            min-height: 300px;
+            white-space: pre-wrap;
+            line-height: 1.8;
+            font-size: 18px;
+            color: #333;
         }
 
-        .card-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
-        }
-
-        .card-title {
-            font-size: 22px;
-            color: #9f2b68;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .card-desc {
-            font-size: 14px;
-            color: #666;
+        /* 编辑模式样式 */
+        .edit-mode {
+            border: 2px dashed #2e6da4 !important;
+            background-color: white !important;
+            outline: none;
+            resize: both;
         }
     </style>
+    <!-- 引入图标库 -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="nav-container">
-        <h1 class="main-title">🏫 初二3班 管理系统</h1>
-        <div class="card-box">
-            <!-- 作业登记系统 -->
-            <a href="作业登记.html" class="nav-card">
-                <div class="card-icon">🎀</div>
-                <div class="card-title">作业登记系统</div>
-                <div class="card-desc">Homework Registration</div>
-            </a>
+    <!-- 标题栏 -->
+    <div class="header">🏫 初二3班 管理系统</div>
 
-            <!-- 考勤系统 -->
-            <a href="考勤系统.html" class="nav-card">
-                <div class="card-icon">🐱</div>
-                <div class="card-title">班级考勤系统</div>
-                <div class="card-desc">Attendance System</div>
-            </a>
+    <!-- 导航按钮区域 -->
+    <div class="nav-container">
+        <!-- 第一个页面跳转按钮 -->
+        <button class="nav-btn" onclick="openPage('page1.html')">
+            <i class="fas fa-user-graduate"></i>
+            <span>学生信息管理</span>
+        </button>
+        <!-- 第二个页面跳转按钮 -->
+        <button class="nav-btn" onclick="openPage('page2.html')">
+            <i class="fas fa-clipboard-list"></i>
+            <span>班级事务管理</span>
+        </button>
+    </div>
+
+    <!-- 公告栏区域 -->
+    <div class="notice-section">
+        <div class="notice-title">
+            <span>📢 班级公告</span>
+            <button class="notice-edit" id="editBtn">编辑公告</button>
+        </div>
+        <div class="notice-content" id="noticeContent" onclick="openFullscreenNotice()">
+            欢迎使用初二3班管理系统！
+            <br><br>
+            【公告说明】
+            <br>
+            1. 点击"编辑公告"可修改此区域内容
+            <br>
+            2. 点击公告内容区域可全屏查看
+            <br>
+            3. 请及时关注班级最新通知
         </div>
     </div>
+
+    <!-- 全屏公告弹窗 -->
+    <div class="fullscreen-modal" id="fullscreenModal">
+        <span class="modal-close" onclick="closeFullscreenNotice()">&times;</span>
+        <div class="modal-content">
+            <div class="modal-notice-content" id="modalNoticeContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // 跳转页面函数
+        function openPage(pageUrl) {
+            // 打开新标签页
+            window.open(pageUrl, '_blank');
+            // 如果需要在当前页面打开，使用：window.location.href = pageUrl;
+        }
+
+        // 公告栏编辑相关
+        let isEditing = false;
+        const noticeContent = document.getElementById('noticeContent');
+        const editBtn = document.getElementById('editBtn');
+
+        // 编辑公告按钮点击事件
+        editBtn.addEventListener('click', function() {
+            if (!isEditing) {
+                // 进入编辑模式
+                noticeContent.contentEditable = true;
+                noticeContent.classList.add('edit-mode');
+                editBtn.textContent = '保存修改';
+                noticeContent.focus();
+                isEditing = true;
+            } else {
+                // 退出编辑模式并保存
+                noticeContent.contentEditable = false;
+                noticeContent.classList.remove('edit-mode');
+                editBtn.textContent = '编辑公告';
+                isEditing = false;
+                // 可以在这里添加本地存储逻辑，保存公告内容
+                localStorage.setItem('classNotice', noticeContent.innerHTML);
+                alert('公告修改已保存！');
+            }
+        });
+
+        // 打开全屏公告
+        function openFullscreenNotice() {
+            if (isEditing) return; // 编辑模式下不允许全屏
+            const modal = document.getElementById('fullscreenModal');
+            const modalContent = document.getElementById('modalNoticeContent');
+            // 复制公告内容到弹窗
+            modalContent.textContent = noticeContent.textContent;
+            // 显示弹窗
+            modal.style.display = 'flex';
+            // 禁止页面滚动
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 关闭全屏公告
+        function closeFullscreenNotice() {
+            const modal = document.getElementById('fullscreenModal');
+            modal.style.display = 'none';
+            // 恢复页面滚动
+            document.body.style.overflow = 'auto';
+        }
+
+        // 页面加载时恢复保存的公告内容
+        window.addEventListener('load', function() {
+            const savedNotice = localStorage.getItem('classNotice');
+            if (savedNotice) {
+                noticeContent.innerHTML = savedNotice;
+            }
+        });
+
+        // 点击弹窗外部关闭
+        document.getElementById('fullscreenModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeFullscreenNotice();
+            }
+        });
+
+        // 按ESC键关闭全屏弹窗
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeFullscreenNotice();
+            }
+        });
+    </script>
 </body>
 </html>
