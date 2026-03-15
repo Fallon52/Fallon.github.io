@@ -13,21 +13,21 @@
         }
 
         body {
-            background-color: #f5f7fa;
+            background-color: #fdf2f8; /* 粉色背景 */
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* 标题栏样式 */
+        /* 标题栏样式 - 粉色主题 */
         .header {
-            background-color: #2e6da4;
+            background-color: #e6398b; /* 主粉色 */
             color: white;
             padding: 20px;
             text-align: center;
             font-size: 24px;
             font-weight: bold;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(230, 57, 139, 0.2);
         }
 
         /* 导航按钮区域 */
@@ -41,15 +41,15 @@
         }
 
         .nav-btn {
-            width: 200px;
-            height: 120px;
+            width: 240px; /* 加宽适配新文字 */
+            height: 140px; /* 加高提升视觉 */
             background-color: #fff;
             border: none;
-            border-radius: 10px;
+            border-radius: 15px;
             font-size: 18px;
-            color: #2e6da4;
+            color: #e6398b;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(230, 57, 139, 0.15);
             transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
@@ -60,21 +60,23 @@
 
         .nav-btn:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-            background-color: #f0f8ff;
+            box-shadow: 0 6px 16px rgba(230, 57, 139, 0.2);
+            background-color: #fff5f8; /* 浅粉色hover背景 */
         }
 
         .nav-btn i {
-            font-size: 36px;
+            font-size: 40px; /* 加大图标 */
+            color: #e6398b;
         }
 
-        /* 公告栏样式 */
+        /* 公告栏样式 - 粉色主题 */
         .notice-section {
             padding: 20px;
             background-color: #fff;
             margin: 0 20px 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(230, 57, 139, 0.1);
+            border: 1px solid #ffc2d1;
         }
 
         .notice-title {
@@ -84,37 +86,45 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            color: #e6398b;
+            font-weight: bold;
         }
 
         .notice-edit {
-            padding: 5px 10px;
-            background-color: #2e6da4;
+            padding: 8px 15px;
+            background-color: #e6398b;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .notice-edit:hover {
+            background-color: #d63384;
+            transform: translateY(-2px);
         }
 
         .notice-content {
             min-height: 100px;
             padding: 15px;
-            border: 1px solid #e0e0e0;
-            border-radius: 5px;
-            background-color: #fafafa;
+            border: 1px solid #ffc2d1;
+            border-radius: 8px;
+            background-color: #fff5f8;
             color: #555;
             line-height: 1.6;
             cursor: pointer;
         }
 
-        /* 全屏公告弹窗 */
+        /* 全屏公告弹窗 - 粉色主题 */
         .fullscreen-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.8);
+            background-color: rgba(230, 57, 139, 0.85); /* 粉色半透明背景 */
             display: none;
             justify-content: center;
             align-items: center;
@@ -126,10 +136,11 @@
             width: 90%;
             max-width: 800px;
             background-color: white;
-            border-radius: 10px;
+            border-radius: 15px;
             padding: 30px;
             max-height: 90vh;
             overflow-y: auto;
+            box-shadow: 0 8px 24px rgba(230, 57, 139, 0.3);
         }
 
         .modal-close {
@@ -139,6 +150,12 @@
             font-size: 30px;
             color: white;
             cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            color: #fff5f8;
+            transform: scale(1.1);
         }
 
         .modal-notice-content {
@@ -149,9 +166,9 @@
             color: #333;
         }
 
-        /* 编辑模式样式 */
+        /* 编辑模式样式 - 粉色主题 */
         .edit-mode {
-            border: 2px dashed #2e6da4 !important;
+            border: 2px dashed #e6398b !important;
             background-color: white !important;
             outline: none;
             resize: both;
@@ -166,15 +183,15 @@
 
     <!-- 导航按钮区域 -->
     <div class="nav-container">
-        <!-- 第一个页面跳转按钮 -->
-        <button class="nav-btn" onclick="openPage('page1.html')">
-            <i class="fas fa-user-graduate"></i>
-            <span>学生信息管理</span>
+        <!-- 第一个页面跳转按钮 - 考勤系统 -->
+        <button class="nav-btn" onclick="openPage('考勤系统.html')">
+            <i class="fas fa-clipboard-check"></i>
+            <span>🐱 班级可爱考勤系统 🐱</span>
         </button>
-        <!-- 第二个页面跳转按钮 -->
-        <button class="nav-btn" onclick="openPage('page2.html')">
-            <i class="fas fa-clipboard-list"></i>
-            <span>班级事务管理</span>
+        <!-- 第二个页面跳转按钮 - 作业登记 -->
+        <button class="nav-btn" onclick="openPage('作业登记.html')">
+            <i class="fas fa-homework"></i>
+            <span>🎀 初二3班作业登记</span>
         </button>
     </div>
 
@@ -233,7 +250,7 @@
                 noticeContent.classList.remove('edit-mode');
                 editBtn.textContent = '编辑公告';
                 isEditing = false;
-                // 可以在这里添加本地存储逻辑，保存公告内容
+                // 本地存储保存公告内容
                 localStorage.setItem('classNotice', noticeContent.innerHTML);
                 alert('公告修改已保存！');
             }
