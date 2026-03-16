@@ -26,16 +26,33 @@ body.night {
     background: #f0fff4;
 }
 
-/* 迟到橙色样式 */
+/* 迟到1-5分钟：橙色 */
 .student-item.late {
     border-color: #FF9800 !important;
     background: #FFF3E0 !important;
 }
-.student-item.late .student-name {
-    color: #E65100 !important;
+/* 迟到>5分钟：红色 */
+.student-item.seriousLate {
+    border-color: #f44336 !important;
+    background: #ffebee !important;
+}
+
+.student-item .student-name {
+    font-weight: bold;
+    margin-bottom: 6px;
+    font-size: 17px;
+    color: #e6398b;
+}
+.time-text {
+    font-size: 13px;
+    color: #e6398b;
 }
 .student-btn.signed.late {
     background: #FF9800 !important;
+    color: #fff !important;
+}
+.student-btn.signed.seriousLate {
+    background: #f44336 !important;
     color: #fff !important;
 }
 
@@ -97,6 +114,7 @@ body.night {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 6px;
+    flex: 1;
 }
 .student-item {
     border: 2px solid #ffc0cb;
@@ -105,16 +123,7 @@ body.night {
     padding: 8px;
     text-align: center;
 }
-.student-name {
-    font-weight: bold;
-    margin-bottom: 6px;
-    font-size: 17px; /* 增大学生名字字体 */
-    color: #e6398b;
-}
-.time-text {
-    font-size: 13px; /* 增大时间字体 */
-    color: #e6398b;
-}
+
 .export-btn, .night-export-btn {
     background: #e6398b;
     color: white;
@@ -193,7 +202,7 @@ body.night .night-export-btn {
 body.night .red-title{ color:#2e7d32; }
 body.night .black-title{ color:#e64a19; }
 
-/* 布局 —— 核心对齐调整 */
+/* 布局 —— 底部对齐 */
 .func-bar {
     display: flex;
     flex-wrap: wrap;
@@ -205,7 +214,7 @@ body.night .black-title{ color:#e64a19; }
     display: flex;
     gap: 15px;
     margin-bottom: 15px;
-    align-items: stretch; /* 让左右高度一致 */
+    align-items: stretch;
 }
 .left-col {
     width: 300px;
@@ -216,13 +225,6 @@ body.night .black-title{ color:#e64a19; }
     flex: 1;
     display: flex;
     flex-direction: column;
-}
-.student-grid {
-    flex: 1; /* 自动撑满高度，实现底部对齐 */
-}
-
-.left-box {
-    width: 100%;
 }
 .total-table-area {
     display: none;
@@ -269,9 +271,8 @@ body.night .black-title{ color:#e64a19; }
             </table>
         </div>
 
-        <!-- 排行榜 -->
         <div class="rank-box">
-            <div class="rank-title red-title">🏆 红榜 - 早到最多 TOP10</div>
+            <div class="rank-title red-title">🏆 红榜 - 早到总时长 TOP10</div>
             <div class="rank-list" id="redRank"></div>
         </div>
         <div class="rank-box">
@@ -321,18 +322,32 @@ const studentList = [
     "梁景烨","梁梓轩","林明辉"
 ];
 
+// 特殊宽松学生（7:00 / 18:45 前不算迟到）
+const specialStudents = [
+    "甘诚鑫","何俊朗","黄潞","梁婉儿","林明辉","刘雨悦",
+    "王梓萱","吴芯蕾","许爝耀","周杰楠","张上亮","李浩明"
+];
+
 const weeks = ["周一","周二","周三","周四","周五","周日"];
 let currentType = "早读";
 let currentWeek = "周一";
 let currentTotalType = "";
 
-// 清空全部密码
+// 清空密码
 const CLEAR_PASSWORD = "578945319";
 
-// 时间规则
+// 时间规则（新版）
 const TIME_RULE = {
-    早读: { start: {h:6,m:30}, late: {h:6,m:55}, end: {h:7,m:0} },
-    晚修: { start: {h:17,m:35}, late: {h:18,m:40}, end: {h:19,m:0} }
+    早读: {
+        early: {h:6,m:50},    // 早于这个 = 早到
+        normalLate: {h:6,m:55}, // 普通学生迟到线
+        specialLate: {h:7,m:0}, // 特殊学生迟到线
+    },
+    晚修: {
+        early: {h:18,m:35},
+        normalLate: {h:18,m:40},
+        specialLate: {h:18,m:45},
+    }
 };
 
 // ===================== 存储 =====================
@@ -351,22 +366,28 @@ function getTimeObj(timeStr){
 }
 function toMinutes(t){ return t.h*60 + t.m }
 
-// 判断是否迟到
-function isLateNow(){
-    const d = new Date();
-    const nowMin = d.getHours()*60 + d.getMinutes();
-    const lateMin = toMinutes(TIME_RULE[currentType].late);
-    return nowMin > lateMin;
+// 获取当前签到对应的迟到阈值
+function getLateLimit(name){
+    const isSpecial = specialStudents.includes(name);
+    const rule = TIME_RULE[currentType];
+    return isSpecial ? rule.specialLate : rule.normalLate;
 }
 
-// 计算早到/迟到分钟数
-function calcDuration(timeStr, type){
+// 计算状态：早到、早到分钟、迟到分钟、是否严重迟到(>5分钟)
+function calcStatus(name, timeStr){
     const t = getTimeObj(timeStr);
     const nowMin = toMinutes(t);
-    const rule = TIME_RULE[type];
-    const lateMin = toMinutes(rule.late);
-    if(nowMin <= lateMin) return { lateMin:0, earlyMin: lateMin - nowMin };
-    else return { lateMin: nowMin - lateMin, earlyMin:0 };
+    const rule = TIME_RULE[currentType];
+    const earlyMin = toMinutes(rule.early);
+    const lateLimitMin = toMinutes(getLateLimit(name));
+    
+    const isEarly = nowMin < earlyMin;
+    const earlyMins = isEarly ? (earlyMin - nowMin) : 0;
+    const isLate = nowMin > lateLimitMin;
+    const lateMinutes = isLate ? (nowMin - lateLimitMin) : 0;
+    const isSeriousLate = lateMinutes > 5;
+    
+    return { isEarly, earlyMins, isLate, lateMinutes, isSeriousLate };
 }
 
 // ===================== 渲染 =====================
@@ -388,10 +409,13 @@ function renderDuty(){
         btn.onclick = ()=>{
             const list = getRecords();
             if(list.some(i=>i.key===key)) return;
-            const late = isLateNow();
             const time = now();
-            const dur = calcDuration(time, currentType);
-            list.push({key,name,type:currentType,week:currentWeek,time,late,...dur});
+            const stat = calcStatus(name, time);
+            list.push({
+                key,name,type:currentType,week:currentWeek,time,
+                isEarly:stat.isEarly, earlyMins:stat.earlyMins,
+                isLate:stat.isLate, lateMinutes:stat.lateMinutes, isSeriousLate:stat.isSeriousLate
+            });
             setRecords(list);
             btn.classList.add("signed");
             t.textContent = time;
@@ -418,16 +442,22 @@ function renderStudents(){
         btn.onclick = ()=>{
             const list = getRecords();
             if(list.some(i=>i.key===key)) return;
-            const late = isLateNow();
             const time = now();
-            const dur = calcDuration(time, currentType);
-            list.push({key,name,type:currentType,week:currentWeek,time,late,...dur});
+            const stat = calcStatus(name, time);
+            
+            list.push({
+                key,name,type:currentType,week:currentWeek,time,
+                isEarly:stat.isEarly, earlyMins:stat.earlyMins,
+                isLate:stat.isLate, lateMinutes:stat.lateMinutes, isSeriousLate:stat.isSeriousLate
+            });
             setRecords(list);
             
             btn.classList.add("signed");
-            if(late) btn.classList.add("late");
+            if(stat.isLate) btn.classList.add("late");
+            if(stat.isSeriousLate) btn.classList.add("seriousLate");
             t.textContent = time;
-            if(late) item.classList.add("late");
+            if(stat.isLate) item.classList.add("late");
+            if(stat.isSeriousLate) item.classList.add("seriousLate");
             
             autoDuty(name);
             renderRank();
@@ -444,10 +474,13 @@ function autoDuty(stuName){
             const key = `D_${currentType}_${currentWeek}_${p}_${stuName}`;
             const list = getRecords();
             if(!list.some(i=>i.key===key)){
-                const late = isLateNow();
                 const time = now();
-                const dur = calcDuration(time, currentType);
-                list.push({key,name:stuName,type:currentType,week:currentWeek,time,late,...dur});
+                const stat = calcStatus(stuName, time);
+                list.push({
+                    key,name:stuName,type:currentType,week:currentWeek,time,
+                    isEarly:stat.isEarly, earlyMins:stat.earlyMins,
+                    isLate:stat.isLate, lateMinutes:stat.lateMinutes, isSeriousLate:stat.isSeriousLate
+                });
                 setRecords(list);
             }
         }
@@ -479,13 +512,15 @@ function refreshStudents(){
         const btn = item.querySelector(".student-btn");
         const t = item.querySelector(".time-text");
         const key = `S_${currentType}_${currentWeek}_${name}`;
-        const itemData = list.find(x=>x.key===key);
+        const data = list.find(x=>x.key===key);
         
-        if(itemData){
+        if(data){
             btn.classList.add("signed");
-            if(itemData.late) btn.classList.add("late");
-            t.textContent = itemData.time;
-            if(itemData.late) item.classList.add("late");
+            if(data.isLate) btn.classList.add("late");
+            if(data.isSeriousLate) btn.classList.add("seriousLate");
+            t.textContent = data.time;
+            if(data.isLate) item.classList.add("late");
+            if(data.isSeriousLate) item.classList.add("seriousLate");
         }
     });
 }
@@ -499,23 +534,25 @@ function changeTheme(){
     }
 }
 
-// ===================== 排行榜 =====================
+// ===================== 排行榜（红榜：早到总分钟） =====================
 function renderRank(){
     const type = currentType;
-    const arr = [];
-    studentList.forEach(name=>{
-        const {ok,late} = stats(name,type);
-        arr.push({name,ok,late});
+    const arr = studentList.map(name=>{
+        const recs = getRecords().filter(x=>x.type===type && x.name===name);
+        const totalEarlyMins = recs.reduce((sum, r) => sum + (r.earlyMins || 0), 0);
+        const lateCount = recs.filter(x=>x.isLate).length;
+        return {name, totalEarlyMins, lateCount};
     });
     
-    const red = [...arr].sort((a,b)=>b.ok - a.ok).slice(0,10);
-    const black = [...arr].sort((a,b)=>b.late - a.late).slice(0,10);
+    // 红榜：早到总分钟 从多到少
+    const red = [...arr].sort((a,b)=>b.totalEarlyMins - a.totalEarlyMins).slice(0,10);
+    // 黑榜：迟到次数
+    const black = [...arr].sort((a,b)=>b.lateCount - a.lateCount).slice(0,10);
     
-    const redHtml = red.map((i,n)=>`${n+1}. ${i.name} · 早到 ${i.ok} 次`).join("<br>");
-    const blackHtml = black.map((i,n)=>`${n+1}. ${i.name} · 迟到 ${i.late} 次`).join("<br>");
-    
-    document.getElementById("redRank").innerHTML = redHtml || "暂无数据";
-    document.getElementById("blackRank").innerHTML = blackHtml || "暂无数据";
+    document.getElementById("redRank").innerHTML = 
+        red.map((i,n)=>`${n+1}. ${i.name} · 共早到 ${i.totalEarlyMins} 分钟`).join("<br>") || "暂无数据";
+    document.getElementById("blackRank").innerHTML = 
+        black.map((i,n)=>`${n+1}. ${i.name} · 迟到 ${i.lateCount} 次`).join("<br>") || "暂无数据";
 }
 
 function renderAll(){
@@ -551,37 +588,34 @@ function clearToday(){
     setRecords(list);
     renderAll();
 }
-
-// 带密码的清空全部
 function clearAllWithPassword(){
-    const inputPwd = prompt("请输入清空全部密码：");
-    if(inputPwd === null) return;
-    if(inputPwd === CLEAR_PASSWORD){
-        if(confirm("密码正确！确定清空所有数据？此操作不可恢复！")){
+    const pwd = prompt("请输入清空全部密码：");
+    if(pwd === null) return;
+    if(pwd === CLEAR_PASSWORD){
+        if(confirm("密码正确！确定清空所有数据？")){
             localStorage.removeItem("sign");
             renderAll();
-            alert("已清空所有考勤数据！");
+            alert("已清空所有数据！");
         }
     }else{
-        alert("密码错误，无法清空！");
+        alert("密码错误！");
     }
 }
 
 // ===================== 统计 =====================
 function stats(name,type){
     const list = getRecords().filter(x=>x.type===type && x.name===name);
-    let ok=0,late=0,no=0;
-    let totalEarly=0, totalLate=0;
+    let early=0,late=0,no=0;
     weeks.forEach(w=>{
         const item = list.find(x=>x.week===w);
         if(!item) no++;
-        else if(item.late) { late++; totalLate += item.lateMin }
-        else { ok++; totalEarly += item.earlyMin }
+        else if(item.isLate) late++;
+        else if(item.isEarly) early++;
     });
-    return {ok,late,no,totalEarly,totalLate};
+    return {early,late,no};
 }
 
-// ===================== 总表 =====================
+// ===================== 总表 & 导出 =====================
 function showTotal(type){
     currentTotalType = type;
     const area = document.getElementById("totalArea");
@@ -594,7 +628,7 @@ function showTotal(type){
     title.textContent = type+" 考勤总表";
     nightBtn.style.display = type==="晚修"?"inline-block":"none";
     
-    head.innerHTML = `<tr><th>类型</th><th>姓名</th>${weeks.map(w=>`<th>${w}</th>`).join("")}<th>早到</th><th>迟到</th><th>未签</th><th>早到累计</th><th>迟到累计</th></tr>`;
+    head.innerHTML = `<tr><th>类型</th><th>姓名</th>${weeks.map(w=>`<th>${w}</th>`).join("")}<th>早到</th><th>迟到</th><th>未签</th></tr>`;
     body.innerHTML = "";
     
     const list = getRecords().filter(x=>x.type===type);
@@ -609,31 +643,30 @@ function showTotal(type){
                 const item = list.find(x=>x.key===`D_${type}_${ww}_${p}_${name}`);
                 td += `<td>${item?item.time:"未签"}</td>`;
             });
-            td += `<td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>`;
+            td += `<td>-</td><td>-</td><td>-</td>`;
             tr.innerHTML = td;
             body.appendChild(tr);
         }
     });
     
     studentList.forEach(name=>{
-        const {ok,late,no,totalEarly,totalLate} = stats(name,type);
+        const {early,late,no} = stats(name,type);
         const tr = document.createElement("tr");
         let td = `<td>学生</td><td>${name}</td>`;
         weeks.forEach(ww=>{
             const item = list.find(x=>x.key===`S_${type}_${ww}_${name}`);
             td += `<td>${item?item.time:"未签"}</td>`;
         });
-        td += `<td>${ok}</td><td>${late}</td><td>${no}</td><td>${totalEarly}分钟</td><td>${totalLate}分钟</td>`;
+        td += `<td>${early}</td><td>${late}</td><td>${no}</td>`;
         tr.innerHTML = td;
         body.appendChild(tr);
     });
 }
 
-// ===================== 导出Excel =====================
 function exportExcel(){
     const type = currentTotalType;
     const list = getRecords().filter(x=>x.type===type);
-    let csv = "类型,姓名,"+weeks.join(",")+",早到,迟到,未签,早到累计,迟到累计\n";
+    let csv = "类型,姓名,"+weeks.join(",")+",早到,迟到,未签\n";
     
     weeks.forEach(w=>{
         const jobs = dutyConfig[w];
@@ -644,18 +677,18 @@ function exportExcel(){
                 const item = list.find(x=>x.key===`D_${type}_${ww}_${p}_${name}`);
                 line += `,${item?item.time:"未签"}`;
             });
-            csv += line + ",-,-,-,-,-\n";
+            csv += line + ",-,-,-\n";
         }
     });
     
     studentList.forEach(name=>{
-        const {ok,late,no,totalEarly,totalLate} = stats(name,type);
+        const {early,late,no} = stats(name,type);
         let line = `学生,${name}`;
         weeks.forEach(ww=>{
             const item = list.find(x=>x.key===`S_${type}_${ww}_${name}`);
             line += `,${item?item.time:"未签"}`;
         });
-        csv += line + `,${ok},${late},${no},${totalEarly}分钟,${totalLate}分钟\n`;
+        csv += line + `,${early},${late},${no}\n`;
     });
     
     const a = document.createElement("a");
