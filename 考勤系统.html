@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐱 班级可爱考勤系统 🐱</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Microsoft YaHei", sans-serif;
+    transition: all 0.3s ease;
+}
+
+body {
+    background: #fff5f8;
+    padding: 10px;
+    max-width: 1800px;
+    margin: 0 auto;
+}
+
+body.night {
+    background: #f0fff4;
+}
+
+.student-item.late {
+    border-color: #FF9800 !important;
+    background: #FFF3E0 !important;
+}
+.student-item.seriousLate {
+    border-color: #f44336 !important;
+    background: #ffebee !important;
+}
+.student-item.leave {
+    border-color: #9c27b0 !important;
+    background: #f3e5f5 !important;
+}
+
+.student-item .student-name {
+    font-weight: bold;
+    margin-bottom: 6px;
+    font-size: 17px;
+    color: #e6398b;
+    cursor: pointer;
+    user-select: none;
+}
+.time-text {
+    font-size: 13px;
+    color: #e6398b;
+}
+.student-btn.signed.late {
+    background: #FF9800 !important;
+    color: #fff !important;
+}
+.student-btn.signed.seriousLate {
+    background: #f44336 !important;
+    color: #fff !important;
+}
+.leave-text {
+    font-size: 12px;
+    color: #9c27b0;
+    font-weight: bold;
+}
+
+.title {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 10px;
+    color: #e6398b;
+    font-weight: bold;
+}
+.type-btn, .week-btn, .total-btn, .clear-btn, .export-btn, .night-export-btn {
+    padding: 6px 14px;
+    border: none;
+    border-radius: 50px;
+    background: #ffc0cb;
+    color: #e6398b;
+    cursor: pointer;
+    font-weight: bold;
+}
+.type-btn.active, .week-btn.active {
+    background: #e6398b;
+    color: white;
+}
+.left-box, .right-box, .total-table-area {
+    background: white;
+    padding: 12px;
+    border-radius: 15px;
+    border: 2px solid #ffc0cb;
+    margin-bottom:10px;
+}
+.box-title {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #e6398b;
+    font-weight: bold;
+}
+.table th, .table td, .total-table th, .total-table td {
+    border: 1px solid #ffc0cb;
+    padding: 4px;
+    text-align: center;
+    font-size: 12px;
+}
+.sign-btn, .student-btn {
+    width: 100%;
+    padding: 4px;
+    border: none;
+    border-radius: 50px;
+    background: #ffc0cb;
+    color: #e6398b;
+    cursor: pointer;
+    font-weight: bold;
+}
+.sign-btn.signed, .student-btn.signed {
+    background: #e6398b;
+    color: white;
+}
+.student-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+    flex: 1;
+}
+.student-item {
+    border: 2px solid #ffc0cb;
+    background: #fff5f8;
+    border-radius: 10px;
+    padding: 8px;
+    text-align: center;
+}
+
+.export-btn, .night-export-btn {
+    background: #e6398b;
+    color: white;
+}
+
+.rank-box{
+    background:white;
+    padding:10px;
+    border-radius:15px;
+    border:2px solid #ffc0cb;
+}
+.rank-title{
+    text-align:center;
+    font-weight:bold;
+    margin-bottom:8px;
+    font-size:14px;
+}
+.red-title{ color:#e6398b; }
+.black-title{ color:#ff5722; }
+.rank-list{
+    font-size:12px;
+    line-height:1.5;
+    padding:0 5px;
+}
+
+body.night .title { color: #2e7d32; }
+body.night .type-btn,
+body.night .week-btn,
+body.night .total-btn,
+body.night .clear-btn {
+    background: #c8e6c9;
+    color: #2e7d32;
+}
+body.night .type-btn.active,
+body.night .week-btn.active {
+    background: #2e7d32;
+    color: white;
+}
+body.night .left-box,
+body.night .right-box,
+body.night .total-table-area,
+body.night .rank-box {
+    border-color: #81c784;
+}
+body.night .box-title,
+body.night .rank-title { color: #2e7d32; }
+body.night .table th,
+body.night .table td,
+body.night .total-table th,
+body.night .total-table td {
+    border-color: #81c784;
+}
+body.night .sign-btn,
+body.night .student-btn {
+    background: #c8e6c9;
+    color: #2e7d32;
+}
+body.night .sign-btn.signed,
+body.night .student-btn.signed {
+    background: #2e7d32;
+    color: white;
+}
+body.night .student-item {
+    border-color: #81c784;
+    background: #f0fff4;
+}
+body.night .student-name { color: #2e7d32; }
+body.night .time-text { color: #2e7d32; }
+body.night .leave-text { color: #9c27b0; }
+body.night .export-btn,
+body.night .night-export-btn {
+    background: #2e7d32;
+    color: white;
+}
+body.night .red-title{ color:#2e7d32; }
+body.night .black-title{ color:#e64a19; }
+
+.func-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+.main-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: stretch;
+}
+.left-col {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+.right-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.total-table-area {
+    display: none;
+    position: relative;
+    padding: 15px;
+}
+.night-export-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+}
+.export-btn {
+    margin: 15px auto 0;
+    display: block;
+}
+</style>
+</head>
+<body>
+
+<div class="title">🐱 班级可爱考勤系统 🐱</div>
+
+<div class="func-bar">
+    <button class="type-btn active" data-type="早读">早读考勤</button>
+    <button class="type-btn" data-type="晚修">晚修考勤</button>
+
+    <button class="week-btn active" data-week="周一">周一</button>
+    <button class="week-btn" data-week="周二">周二</button>
+    <button class="week-btn" data-week="周三">周三</button>
+    <button class="week-btn" data-week="周四">周四</button>
+    <button class="week-btn" data-week="周五">周五</button>
+    <button class="week-btn" data-week="周日">周日</button>
+
+    <button class="total-btn" onclick="showTotal('早读')">📊 早读总表</button>
+    <button class="total-btn" onclick="showTotal('晚修')">📊 晚修总表</button>
+    <button class="total-btn" onclick="exportAllExcel()">📥 导出全部总表</button>
+</div>
+
+<div class="main-container">
+    <div class="left-col">
+        <div class="left-box">
+            <div class="box-title">🧹 值日生</div>
+            <table class="table">
+                <thead><tr><th>岗位</th><th>人员</th><th>签到</th><th>时间</th></tr></thead>
+                <tbody id="dutyBody"></tbody>
+            </table>
+        </div>
+
+        <div class="rank-box">
+            <div class="rank-title red-title">🏆 红榜 - 早到总时长 TOP10</div>
+            <div class="rank-list" id="redRank"></div>
+        </div>
+        <div class="rank-box">
+            <div class="rank-title black-title">⚠️ 黑榜 - 迟到最多 TOP10</div>
+            <div class="rank-list" id="blackRank"></div>
+        </div>
+    </div>
+
+    <div class="right-box">
+        <div class="box-title">👧🏻👦 学生签到（长按名字5秒请假）</div>
+        <div class="student-grid" id="studentGrid"></div>
+    </div>
+</div>
+
+<div style="text-align:center; margin-bottom:15px;">
+    <button class="clear-btn" onclick="clearToday()">🗑️ 清空今日</button>
+    <button class="clear-btn" onclick="clearAllWithPassword()">🗑️ 清空全部</button>
+</div>
+
+<div class="total-table-area" id="totalArea">
+    <div class="box-title" id="totalTitle"></div>
+    <button class="night-export-btn" id="nightExportBtn" style="display:none;" onclick="exportExcel()">📥 导出晚修Excel</button>
+    <table class="total-table">
+        <thead id="totalHead"></thead>
+        <tbody id="totalBody"></tbody>
+    </table>
+    <button class="export-btn" onclick="exportExcel()">💾 导出Excel</button>
+</div>
+
+<script>
+// ===================== 配置 =====================
+const dutyConfig = {
+    周一: {一二大组:"胥淘然",三四大组:"吴芯蕾",走廊:"楠/佳/圣",天桥:"钟佳妍",栏杆:"钟雯珺",公区1:"李诗钰",公区2:"梁海瑜",公区3:"甘诚鑫",公区4:"罗文卓",公区5:"黄继聪"},
+    周二: {一二大组:"欧美莹",三四大组:"洪烨欣",走廊:"林明辉",天桥:"周凯荧",栏杆:"蔡钧浩",公区1:"陈紫荧",公区2:"甘婷方",公区3:"冯昱钧",公区4:"陈宇鹏",公区5:"伍柏熹"},
+    周三: {一二大组:"段芸洁",三四大组:"黄高峰",走廊:"赵祥宇",天桥:"何俊朗",栏杆:"陈嘉俊",公区1:"梁婉儿",公区2:"王梓萱",公区3:"解勤志",公区4:"刘雨悦",公区5:"张上亮"},
+    周四: {一二大组:"许耀耀",三四大组:"徐雨彤",走廊:"黎卓然",天桥:"陈卓熙",栏杆:"邓浩海",公区1:"廖美倩",公区2:"蒙嘉怡",公区3:"林建斌",公区4:"梁柏瑜",公区5:"孟星宇"},
+    周五: {一二大组:"高晓柔",三四大组:"黄潞",走廊:"钟子承",天桥:"梁景烨",栏杆:"梁梓轩",公区1:"蔡文靖",公区2:"杜焯浩",公区3:"辛俊耀",公区4:"林卓熙",公区5:"李浩明"},
+    周日: {一二大组:"扣分名单",三四大组:"扣分名单",走廊:"扣分名单",天桥:"扣分名单",栏杆:"扣分名单",公区1:"扣分名单",公区2:"扣分名单",公区3:"扣分名单",公区4:"扣分名单",公区5:"扣分名单"}
+};
+
+const studentList = [
+    "蔡钧浩","蔡文靖","陈嘉俊","陈宇鹏","陈卓熙","陈紫荧","邓浩海","杜焯浩","段芸洁","冯昱钧",
+    "甘诚鑫","甘婷方","高晓柔","何俊朗","洪烨欣","黄高峰","黄继聪","黄潞","黄圣杰","解勤志",
+    "黎卓然","李浩明","李诗钰","梁柏瑜","梁海瑜","梁景烨","梁婉儿","梁梓轩","廖美倩","林建斌",
+    "林明辉","林卓熙","刘雨悦","罗文卓","蒙嘉怡","孟星宇","欧美莹","王梓萱","伍柏熹","辛俊耀",
+    "胥淘然","徐雨彤","许爝耀","阳佳言","张上亮","赵祥宇","钟佳妍","钟雯珺","钟子承","周杰楠",
+    "周凯荧","周夏旭","吴芯蕾"
+];
+
+const studentIdMap = {
+    "蔡钧浩":1,"蔡文靖":2,"陈嘉俊":3,"陈宇鹏":4,"陈卓熙":5,"陈紫荧":6,"邓浩海":7,"杜焯浩":8,"段芸洁":9,"冯昱钧":10,
+    "甘诚鑫":11,"甘婷方":12,"高晓柔":13,"何俊朗":14,"洪烨欣":15,"黄高峰":16,"黄继聪":17,"黄潞":18,"黄圣杰":19,"解勤志":20,
+    "黎卓然":21,"李浩明":22,"李诗钰":23,"梁柏瑜":24,"梁海瑜":25,"梁景烨":26,"梁婉儿":27,"梁梓轩":28,"廖美倩":29,"林建斌":30,
+    "林明辉":31,"林卓熙":32,"刘雨悦":33,"罗文卓":34,"蒙嘉怡":35,"孟星宇":36,"欧美莹":37,"王梓萱":38,"伍柏熹":39,"辛俊耀":40,
+    "胥淘然":41,"徐雨彤":42,"许爝耀":43,"阳佳言":44,"张上亮":45,"赵祥宇":46,"钟佳妍":47,"钟雯珺":48,"钟子承":49,"周杰楠":50,
+    "周凯荧":51,"周夏旭":52,"吴芯蕾":54
+};
+
+const specialStudents = [
+    "甘诚鑫","何俊朗","黄潞","梁婉儿","林明辉","刘雨悦",
+    "王梓萱","吴芯蕾","许爝耀","周杰楠","张上亮","李浩明"
+];
+
+const weeks = ["周一","周二","周三","周四","周五","周日"];
+let currentType = "早读";
+let currentWeek = "周一";
+let currentTotalType = "";
+const CLEAR_PASSWORD = "578945319";
+
+const TIME_RULE = {
+    早读: {early: {h:6,m:50}, normalLate: {h:6,m:55}, specialLate: {h:7,m:0}},
+    晚修: {early: {h:18,m:35}, normalLate: {h:18,m:40}, specialLate: {h:18,m:45}}
+};
+
+const LONG_PRESS_TIME = 800;
+const LEAVE_PRESS_TIME = 5000;
+let pressTimer = null;
+let leaveTimer = null;
+
+// ===================== 存储 =====================
+function getRecords(){ return JSON.parse(localStorage.getItem("sign")) || [] }
+function setRecords(arr){ localStorage.setItem("sign", JSON.stringify(arr)) }
+function getLeaves(){ return JSON.parse(localStorage.getItem("leave")) || [] }
+function setLeaves(arr){ localStorage.setItem("leave", JSON.stringify(arr)) }
+
+// ===================== 时间工具 =====================
+function now(){
+    const d = new Date();
+    return `${d.getMonth()+1}-${d.getDate()} ${String(d.getHours()).padStart(2,0)}:${String(d.getMinutes()).padStart(2,0)}`;
+}
+function getTimeObj(timeStr){
+    const [date, hm] = timeStr.split(' ');
+    const [h,m] = hm.split(':').map(Number);
+    return {h,m};
+}
+function toMinutes(t){ return t.h*60 + t.m }
+
+function getLateLimit(name){
+    const isSpecial = specialStudents.includes(name);
+    const rule = TIME_RULE[currentType];
+    return isSpecial ? rule.specialLate : rule.normalLate;
+}
+
+function calcStatus(name, timeStr){
+    const t = getTimeObj(timeStr);
+    const nowMin = toMinutes(t);
+    const rule = TIME_RULE[currentType];
+    const earlyMin = toMinutes(rule.early);
+    const lateLimitMin = toMinutes(getLateLimit(name));
+    
+    const isEarly = nowMin < earlyMin;
+    const earlyMins = isEarly ? (earlyMin - nowMin) : 0;
+    const isLate = nowMin > lateLimitMin;
+    const lateMinutes = isLate ? (nowMin - lateLimitMin) : 0;
+    const isSeriousLate = lateMinutes > 5;
+    
+    return { isEarly, earlyMins, isLate, lateMinutes, isSeriousLate };
+}
+
+// 请假状态
+function isLeave(name){
+    return getLeaves().some(x=>x.name===name && x.type===currentType && x.week===currentWeek);
+}
+function toggleLeave(name){
+    const list = getLeaves();
+    const idx = list.findIndex(x=>x.name===name && x.type===currentType && x.week===currentWeek);
+    if(idx>-1){
+        list.splice(idx,1);
+        setLeaves(list);
+        return false;
+    }else{
+        list.push({name,type:currentType,week:currentWeek});
+        setLeaves(list);
+        return true;
+    }
+}
+
+// ===================== 长按事件 =====================
+function initBtnEvents(btn, key, name, timeEl, parentEl = null, isStudent = false) {
+    function startPress() {
+        pressTimer = setTimeout(() => {
+            const records = getRecords();
+            const recordIndex = records.findIndex(item => item.key === key);
+            if (recordIndex > -1) {
+                if (confirm(`确定取消【${name}】的签到记录吗？`)) {
+                    records.splice(recordIndex, 1);
+                    setRecords(records);
+                    btn.classList.remove("signed", "late", "seriousLate");
+                    timeEl.textContent = "";
+                    if (isStudent && parentEl) parentEl.classList.remove("late", "seriousLate");
+                    renderRank();
+                }
+            }
+        }, LONG_PRESS_TIME);
+    }
+    function endPress() {
+        if(pressTimer){clearTimeout(pressTimer); pressTimer=null;}
+    }
+    function handleClick() {
+        if(isLeave(name)){alert("该生今日已请假，无法签到！"); return;}
+        const records = getRecords();
+        if(records.some(item=>item.key===key)) return;
+        
+        const time = now();
+        const stat = calcStatus(name, time);
+        records.push({key,name,type:currentType,week:currentWeek,time,
+            isEarly:stat.isEarly,earlyMins:stat.earlyMins,
+            isLate:stat.isLate,lateMinutes:stat.lateMinutes,isSeriousLate:stat.isSeriousLate});
+        setRecords(records);
+
+        btn.classList.add("signed");
+        if(stat.isLate) btn.classList.add("late");
+        if(stat.isSeriousLate) btn.classList.add("seriousLate");
+        timeEl.textContent = time;
+        
+        if(isStudent && parentEl){
+            if(stat.isLate) parentEl.classList.add("late");
+            if(stat.isSeriousLate) parentEl.classList.add("seriousLate");
+            autoDuty(name);
+        }
+        renderRank();
+    }
+    btn.addEventListener("mousedown", startPress);
+    btn.addEventListener("mouseup", endPress);
+    btn.addEventListener("mouseleave", endPress);
+    btn.addEventListener("touchstart", startPress);
+    btn.addEventListener("touchend", endPress);
+    btn.addEventListener("click", handleClick);
+}
+
+// 长按名字 5 秒 请假
+function initLeaveName(nameEl, name, itemEl){
+    function startLeave(){
+        leaveTimer = setTimeout(()=>{
+            const res = toggleLeave(name);
+            if(res){
+                itemEl.classList.add("leave");
+                alert(`${name} 已标记为请假`);
+            }else{
+                itemEl.classList.remove("leave");
+                alert(`${name} 已取消请假`);
+            }
+            refreshStudents();
+            renderRank();
+        }, LEAVE_PRESS_TIME);
+    }
+    function endLeave(){
+        if(leaveTimer){clearTimeout(leaveTimer); leaveTimer=null;}
+    }
+    nameEl.addEventListener("mousedown", startLeave);
+    nameEl.addEventListener("mouseup", endLeave);
+    nameEl.addEventListener("mouseleave", endLeave);
+    nameEl.addEventListener("touchstart", startLeave);
+    nameEl.addEventListener("touchend", endLeave);
+}
+
+// ===================== 渲染 =====================
+function renderDuty(){
+    const b = document.getElementById("dutyBody");
+    b.innerHTML = "";
+    const jobs = dutyConfig[currentWeek];
+    
+    for(let p in jobs){
+        const name = jobs[p];
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${p}</td><td>${name}</td><td><button class="sign-btn">签到</button></td><td><div class="time-text"></div></td>`;
+        b.appendChild(tr);
+        
+        const btn = tr.querySelector(".sign-btn");
+        const timeEl = tr.querySelector(".time-text");
+        const key = `D_${currentType}_${currentWeek}_${p}_${name}`;
+        initBtnEvents(btn, key, name, timeEl);
+    }
+    refreshDuty();
+}
+
+function renderStudents(){
+    const g = document.getElementById("studentGrid");
+    g.innerHTML = "";
+    
+    studentList.forEach(name=>{
+        const item = document.createElement("div");
+        item.className = "student-item";
+        if(isLeave(name)) item.classList.add("leave");
+        item.innerHTML = `<div class="student-name">${name}</div>
+                          <button class="student-btn">签到</button>
+                          <div class="time-text"></div>
+                          <div class="leave-text">${isLeave(name)?'【请假】':''}</div>`;
+        g.appendChild(item);
+        
+        const btn = item.querySelector(".student-btn");
+        const timeEl = item.querySelector(".time-text");
+        const nameEl = item.querySelector(".student-name");
+        const key = `S_${currentType}_${currentWeek}_${name}`;
+        
+        initBtnEvents(btn, key, name, timeEl, item, true);
+        initLeaveName(nameEl, name, item);
+    });
+    refreshStudents();
+}
+
+function autoDuty(stuName){
+    const jobs = dutyConfig[currentWeek];
+    for(let p in jobs){
+        if(jobs[p] === stuName){
+            const key = `D_${currentType}_${currentWeek}_${p}_${stuName}`;
+            const list = getRecords();
+            if(!list.some(i=>i.key===key)){
+                const time = now();
+                const stat = calcStatus(stuName, time);
+                list.push({key,name:stuName,type:currentType,week:currentWeek,time,
+                    isEarly:stat.isEarly,earlyMins:stat.earlyMins,
+                    isLate:stat.isLate,lateMinutes:stat.lateMinutes,isSeriousLate:stat.isSeriousLate});
+                setRecords(list);
+            }
+        }
+    }
+    renderDuty();
+}
+
+function refreshDuty(){
+    const list = getRecords();
+    document.querySelectorAll(".sign-btn").forEach(btn=>{
+        const row = btn.closest("tr");
+        const timeEl = row.querySelector(".time-text");
+        const name = row.children[1].textContent;
+        const p = row.children[0].textContent;
+        const key = `D_${currentType}_${currentWeek}_${p}_${name}`;
+        const item = list.find(x=>x.key===key);
+        if(item){btn.classList.add("signed"); timeEl.textContent = item.time;}
+    });
+}
+
+function refreshStudents(){
+    const list = getRecords();
+    const leaves = getLeaves();
+    document.querySelectorAll(".student-item").forEach(item=>{
+        const name = item.querySelector(".student-name").textContent;
+        const btn = item.querySelector(".student-btn");
+        const timeEl = item.querySelector(".time-text");
+        const leaveEl = item.querySelector(".leave-text");
+        const key = `S_${currentType}_${currentWeek}_${name}`;
+        const data = list.find(x=>x.key===key);
+        const isLv = isLeave(name);
+        
+        btn.classList.toggle("signed", !!data);
+        btn.classList.toggle("late", data?.isLate);
+        btn.classList.toggle("seriousLate", data?.isSeriousLate);
+        timeEl.textContent = data?.time || "";
+        item.classList.toggle("late", data?.isLate);
+        item.classList.toggle("seriousLate", data?.isSeriousLate);
+        item.classList.toggle("leave", isLv);
+        leaveEl.textContent = isLv ? "【请假】" : "";
+    });
+}
+
+function changeTheme(){
+    document.body.classList.toggle("night", currentType==="晚修");
+}
+
+function renderRank(){
+    const type = currentType;
+    const leaves = getLeaves().filter(x=>x.type===type);
+    const arr = studentList.map(name=>{
+        const recs = getRecords().filter(x=>x.type===type && x.name===name);
+        const totalEarlyMins = recs.reduce((sum,r)=>sum+(r.earlyMins||0),0);
+        const lateCount = recs.filter(x=>x.isLate).length;
+        const leaveCount = leaves.filter(x=>x.name===name).length;
+        return {name, totalEarlyMins, lateCount, leaveCount};
+    });
+    
+    const red = [...arr].sort((a,b)=>b.totalEarlyMins-a.totalEarlyMins).slice(0,10);
+    const black = [...arr].sort((a,b)=>b.lateCount-a.lateCount).slice(0,10);
+    
+    document.getElementById("redRank").innerHTML = red.map((i,n)=>`${n+1}. ${i.name} · 早到 ${i.totalEarlyMins}分钟`).join("<br>")||"暂无数据";
+    document.getElementById("blackRank").innerHTML = black.map((i,n)=>`${n+1}. ${i.name} · 迟到 ${i.lateCount}次`).join("<br>")||"暂无数据";
+}
+
+function renderAll(){
+    renderDuty();
+    renderStudents();
+    changeTheme();
+    renderRank();
+}
+
+// ===================== 切换 =====================
+document.querySelectorAll(".type-btn").forEach(btn=>{
+    btn.onclick = ()=>{
+        document.querySelectorAll(".type-btn").forEach(b=>b.classList.remove("active"));
+        btn.classList.add("active");
+        currentType = btn.dataset.type;
+        renderAll();
+    }
+});
+document.querySelectorAll(".week-btn").forEach(btn=>{
+    btn.onclick = ()=>{
+        document.querySelectorAll(".week-btn").forEach(b=>b.classList.remove("active"));
+        btn.classList.add("active");
+        currentWeek = btn.dataset.week;
+        renderAll();
+    }
+});
+
+// ===================== 清空 =====================
+function clearToday(){
+    let records = getRecords().filter(x=>!(x.week===currentWeek && x.type===currentType));
+    let leaves = getLeaves().filter(x=>!(x.week===currentWeek && x.type===currentType));
+    setRecords(records);
+    setLeaves(leaves);
+    renderAll();
+}
+function clearAllWithPassword(){
+    const pwd = prompt("请输入清空全部密码：");
+    if(pwd!==CLEAR_PASSWORD) return alert("密码错误！");
+    if(confirm("确定清空所有数据？")){
+        localStorage.removeItem("sign");
+        localStorage.removeItem("leave");
+        renderAll();
+        alert("已清空所有数据！");
+    }
+}
+
+// ===================== 统计 =====================
+function stats(name,type){
+    const list = getRecords().filter(x=>x.type===type && x.name===name);
+    const leaves = getLeaves().filter(x=>x.type===type && x.name===name);
+    let early=0,late=0,no=0,lv=0;
+    weeks.forEach(w=>{
+        if(leaves.some(x=>x.week===w)){lv++; return;}
+        const item = list.find(x=>x.week===w);
+        if(!item) no++;
+        else if(item.isLate) late++;
+        else early++;
+    });
+    return {early,late,no,lv};
+}
+
+// ===================== 总表 & 导出 =====================
+function showTotal(type){
+    currentTotalType = type;
+    const area = document.getElementById("totalArea");
+    const title = document.getElementById("totalTitle");
+    const head = document.getElementById("totalHead");
+    const body = document.getElementById("totalBody");
+    const nightBtn = document.getElementById("nightExportBtn");
+    
+    area.style.display = "block";
+    title.textContent = type+" 考勤总表";
+    nightBtn.style.display = type==="晚修"?"inline-block":"none";
+    
+    head.innerHTML = `<tr><th>类型</th><th>学号</th><th>姓名</th>${weeks.map(w=>`<th>${w}</th>`).join("")}<th>早到</th><th>迟到</th><th>未签</th><th>请假</th></tr>`;
+    body.innerHTML = "";
+    
+    const list = getRecords().filter(x=>x.type===type);
+    const leaves = getLeaves().filter(x=>x.type===type);
+    
+    studentList.forEach(name=>{
+        const id = studentIdMap[name] || "";
+        const {early,late,no,lv} = stats(name,type);
+        const tr = document.createElement("tr");
+        let td = `<td>学生</td><td>${id}</td><td>${name}</td>`;
+        weeks.forEach(ww=>{
+            const isLv = leaves.some(x=>x.name===name && x.week===ww);
+            const item = list.find(x=>x.key===`S_${type}_${ww}_${name}`);
+            td += `<td>${isLv?"请假":(item?item.time:"未签")}</td>`;
+        });
+        td += `<td>${early}</td><td>${late}</td><td>${no}</td><td>${lv}</td>`;
+        tr.innerHTML = td;
+        body.appendChild(tr);
+    });
+}
+
+function exportExcel(){
+    const type = currentTotalType;
+    const list = getRecords().filter(x=>x.type===type);
+    const leaves = getLeaves().filter(x=>x.type===type);
+    let csv = "类型,学号,姓名,"+weeks.join(",")+",早到,迟到,未签,请假\n";
+    
+    studentList.forEach(name=>{
+        const id = studentIdMap[name] || "";
+        const {early,late,no,lv} = stats(name,type);
+        let line = `学生,${id},${name}`;
+        weeks.forEach(ww=>{
+            const isLv = leaves.some(x=>x.name===name && x.week===ww);
+            const item = list.find(x=>x.key===`S_${type}_${ww}_${name}`);
+            line += `,${isLv?"请假":(item?item.time:"未签")}`;
+        });
+        csv += line + `,${early},${late},${no},${lv}\n`;
+    });
+    
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));
+    a.download = `${type}考勤表.csv`;
+    a.click();
+}
+
+function exportAllExcel(){
+    const types = ["早读","晚修"];
+    let csv = "类型,学号,姓名,"+weeks.join(",")+",早到,迟到,未签,请假\n";
+    
+    types.forEach(type=>{
+        const list = getRecords().filter(x=>x.type===type);
+        const leaves = getLeaves().filter(x=>x.type===type);
+        
+        studentList.forEach(name=>{
+            const id = studentIdMap[name] || "";
+            const {early,late,no,lv} = stats(name,type);
+            let line = `${type},${id},${name}`;
+            weeks.forEach(ww=>{
+                const isLv = leaves.some(x=>x.name===name && x.week===ww);
+                const item = list.find(x=>x.key===`S_${type}_${ww}_${name}`);
+                line += `,${isLv?"请假":(item?item.time:"未签")}`;
+            });
+            csv += line + `,${early},${late},${no},${lv}\n`;
+        });
+    });
+    
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));
+    a.download = "早读+晚修总表.csv";
+    a.click();
+}
+
+window.onload=()=>{ renderAll() }
+</script>
+</body>
+</html>
