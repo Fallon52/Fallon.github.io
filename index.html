@@ -15,7 +15,7 @@
 
         /* 页面主体 - 延续考勤/作业系统的粉色基调 */
         body {
-            background-color: #fff5f8; /* 与考勤系统背景一致 */
+            background-color: #fff5f8;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -23,14 +23,14 @@
             padding: 20px 10px;
         }
 
-        /* 标题容器 - 融合粉色主题+纪律系统的圆角风格 */
+        /* 标题容器 */
         .title-container {
-            background-color: #e6398b; /* 考勤系统主色 */
+            background-color: #e6398b;
             width: 100%;
             max-width: 900px;
             text-align: center;
             padding: 20px;
-            border-radius: 15px 15px 0 0; /* 匹配子系统圆角 */
+            border-radius: 15px 15px 0 0;
             box-shadow: 0 2px 8px rgba(230, 57, 139, 0.2);
             margin-bottom: 0;
         }
@@ -42,7 +42,54 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
         }
 
-        /* 导航容器 - 白色背景+粉色边框，统一子系统视觉 */
+        /* 可编辑公告容器 */
+        .notice-container {
+            background-color: #ffe6f2;
+            width: 100%;
+            max-width: 900px;
+            padding: 15px 20px;
+            border: 2px solid #ffc0cb;
+            border-top: none;
+            border-bottom: none;
+            box-shadow: 0 2px 8px rgba(230, 57, 139, 0.1);
+        }
+
+        .notice-title {
+            color: #e6398b;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .notice-title::before {
+            content: "📢";
+            font-size: 18px;
+        }
+
+        .notice-edit {
+            color: #d63384;
+            font-size: 14px;
+            line-height: 1.6;
+            min-height: 80px;
+            max-height: 150px;
+            overflow-y: auto;
+            padding: 8px 10px;
+            border: 1px dashed #ff87b3;
+            border-radius: 6px;
+            background: white;
+            outline: none;
+            white-space: pre-line;
+        }
+
+        .notice-edit:focus {
+            border-color: #e6398b;
+            background: #fffafc;
+        }
+
+        /* 导航容器 */
         .nav-container {
             background-color: white;
             width: 100%;
@@ -53,42 +100,43 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            border: 2px solid #ffc0cb; /* 考勤系统边框色 */
+            border: 2px solid #ffc0cb;
             border-top: none;
+            margin-bottom: 20px;
         }
 
-        /* 导航按钮 - 匹配子系统按钮风格（圆角+hover动效） */
+        /* 导航按钮 */
         .nav-btn {
             display: block;
             text-decoration: none;
-            background-color: #ffc0cb; /* 考勤系统按钮底色 */
-            color: #e6398b; /* 考勤系统文字色 */
+            background-color: #ffc0cb;
+            color: #e6398b;
             font-size: 20px;
             font-weight: bold;
             text-align: center;
             padding: 20px;
-            border-radius: 50px; /* 作业系统按钮圆角 */
+            border-radius: 50px;
             transition: all 0.3s ease;
             border: none;
             box-shadow: 0 3px 6px rgba(255, 192, 203, 0.3);
         }
 
         .nav-btn:hover {
-            background-color: #e6398b; /* hover反色 */
+            background-color: #e6398b;
             color: white;
             transform: translateY(-3px);
             box-shadow: 0 4px 12px rgba(230, 57, 139, 0.3);
         }
 
-        /* 底部信息 - 粉色文字，简洁风格 */
+        /* 底部信息 */
         .footer {
             color: #e6398b;
             font-size: 14px;
-            margin-top: 30px;
+            margin-top: 10px;
             text-align: center;
         }
 
-        /* 响应式适配 - 适配手机/平板 */
+        /* 响应式适配 */
         @media (max-width: 600px) {
             .title {
                 font-size: 22px;
@@ -97,28 +145,55 @@
                 font-size: 18px;
                 padding: 16px;
             }
-            .nav-container {
-                padding: 25px 15px;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- 标题区域 - 匹配需求的系统名称 -->
+    <!-- 标题 -->
     <div class="title-container">
         <h1 class="title">梁开中学3班管理系统</h1>
     </div>
 
-    <!-- 导航区域 - 对应三个实际文件，路径直接匹配文件名 -->
+    <!-- 可编辑公告 -->
+    <div class="notice-container">
+        <div class="notice-title">班级公告（双击可编辑）</div>
+        <div class="notice-edit" id="noticeContent" contenteditable="true">
+1. 每日早读考勤截止时间为6:55，晚修考勤截止时间为18:40，请按时签到。
+2. 作业登记需每日20:00前完成，未完成的同学将记录到统计面板。
+3. 纪律扣分累计超过10分的同学需在周五下午留堂整改。
+4. 每周五放学前将导出本周所有考勤、作业、纪律数据，供家长查阅。
+5. 系统数据本地存储，请勿随意清空，清空前需确认密码。
+        </div>
+    </div>
+
+    <!-- 导航 -->
     <div class="nav-container">
         <a href="考勤系统.html" class="nav-btn">🐱 班级考勤系统</a>
         <a href="作业登记.html" class="nav-btn">🎀 作业登记系统</a>
         <a href="纪律登记.html" class="nav-btn">📋 纪律管理系统</a>
     </div>
 
-    <!-- 底部区域 -->
+    <!-- 底部 -->
     <div class="footer">
         梁开中学3班 © 2025 班级管理系统 | 所有功能本地存储，数据安全
     </div>
+
+    <script>
+        // 获取公告元素
+        const noticeEl = document.getElementById('noticeContent');
+
+        // 页面加载时读取本地保存的公告
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('classNotice');
+            if (saved) {
+                noticeEl.innerText = saved;
+            }
+        });
+
+        // 编辑后自动保存
+        noticeEl.addEventListener('input', () => {
+            localStorage.setItem('classNotice', noticeEl.innerText);
+        });
+    </script>
 </body>
 </html>
