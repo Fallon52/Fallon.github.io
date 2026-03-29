@@ -3,65 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>梁开中学3班管理系统导航</title>
+    <title>梁开中学3班管理系统</title>
     <style>
-        /* 简单美化导航栏 */
+        /* 全局样式重置，统一风格 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: "Microsoft YaHei", 微软雅黑, sans-serif;
         }
+
+        /* 页面主体 - 延续考勤/作业系统的粉色基调 */
         body {
-            font-family: "Microsoft YaHei", sans-serif;
-            background-color: #fff5f8; /* 浅粉色背景 */
-        }
-        .nav-container {
-            width: 100%;
-            background-color: #f8a5c2; /* 主粉色导航栏 */
-            padding: 22px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .nav-list {
-            list-style: none;
+            background-color: #fff5f8; /* 与考勤系统背景一致 */
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 10px;
         }
-        .nav-item a {
-            color: white;
-            text-decoration: none;
-            font-size: 19px;
-            font-weight: bold;
-            padding: 12px 24px;
-            border-radius: 12px;
-            background-color: #f3689c; /* 深粉色按钮 */
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-        .nav-item a:hover {
-            background-color: #e04e85; /* 悬停更深粉色 */
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-        .title {
+
+        /* 标题容器 - 融合粉色主题+纪律系统的圆角风格 */
+        .title-container {
+            background-color: #e6398b; /* 考勤系统主色 */
+            width: 100%;
+            max-width: 900px;
             text-align: center;
-            margin-top: 60px;
-            margin-bottom: 30px;
-            color: #e04e85; /* 粉色标题 */
-            font-size: 34px;
+            padding: 20px;
+            border-radius: 15px 15px 0 0; /* 匹配子系统圆角 */
+            box-shadow: 0 2px 8px rgba(230, 57, 139, 0.2);
+            margin-bottom: 0;
+        }
+
+        .title {
+            color: white;
+            font-size: 28px;
             font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* 导航容器 - 白色背景+粉色边框，统一子系统视觉 */
+        .nav-container {
+            background-color: white;
+            width: 100%;
+            max-width: 900px;
+            padding: 40px 20px;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 2px 8px rgba(230, 57, 139, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            border: 2px solid #ffc0cb; /* 考勤系统边框色 */
+            border-top: none;
+        }
+
+        /* 导航按钮 - 匹配子系统按钮风格（圆角+hover动效） */
+        .nav-btn {
+            display: block;
+            text-decoration: none;
+            background-color: #ffc0cb; /* 考勤系统按钮底色 */
+            color: #e6398b; /* 考勤系统文字色 */
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            border-radius: 50px; /* 作业系统按钮圆角 */
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 3px 6px rgba(255, 192, 203, 0.3);
+        }
+
+        .nav-btn:hover {
+            background-color: #e6398b; /* hover反色 */
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(230, 57, 139, 0.3);
+        }
+
+        /* 底部信息 - 粉色文字，简洁风格 */
+        .footer {
+            color: #e6398b;
+            font-size: 14px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        /* 响应式适配 - 适配手机/平板 */
+        @media (max-width: 600px) {
+            .title {
+                font-size: 22px;
+            }
+            .nav-btn {
+                font-size: 18px;
+                padding: 16px;
+            }
+            .nav-container {
+                padding: 25px 15px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="title">🌸 梁开中学3班管理系统导航 🌸</div>
+    <!-- 标题区域 - 匹配需求的系统名称 -->
+    <div class="title-container">
+        <h1 class="title">梁开中学3班管理系统</h1>
+    </div>
+
+    <!-- 导航区域 - 对应三个实际文件，路径直接匹配文件名 -->
     <div class="nav-container">
-        <ul class="nav-list">
-            <li class="nav-item"><a href="作业登记.html" target="_blank">📝 作业登记</a></li>
-            <li class="nav-item"><a href="纪律登记.html" target="_blank">📏 纪律登记</a></li>
-            <li class="nav-item"><a href="考勤系统.html" target="_blank">📊 考勤系统</a></li>
-        </ul>
+        <a href="考勤系统.html" class="nav-btn">🐱 班级考勤系统</a>
+        <a href="作业登记.html" class="nav-btn">🎀 作业登记系统</a>
+        <a href="纪律登记.html" class="nav-btn">📋 纪律管理系统</a>
+    </div>
+
+    <!-- 底部区域 -->
+    <div class="footer">
+        梁开中学3班 © 2025 班级管理系统 | 所有功能本地存储，数据安全
     </div>
 </body>
 </html>
