@@ -15,7 +15,6 @@
             background-color: #f5f7fa;
             padding: 10px;
         }
-        /* 顶部 */
         .header {
             background-color: #2c3e50;
             color: white;
@@ -45,13 +44,11 @@
         .day-tab.active {
             background: #28a745;
         }
-        /* 主体布局 */
         .main-container {
             display: flex;
             gap: 15px;
             height: calc(100vh - 200px);
         }
-        /* 左侧学生面板 */
         .left-panel {
             width: 290px;
             background: white;
@@ -68,6 +65,15 @@
             font-weight: bold;
             text-align: center;
         }
+        .group-select {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            font-weight: bold;
+        }
         .group-title {
             background: #3498db;
             color: white;
@@ -75,6 +81,10 @@
             border-radius: 4px;
             margin: 12px 0 6px;
             font-weight: bold;
+            cursor: pointer;
+        }
+        .group-title.active {
+            background: #28a745;
         }
         .student-item {
             padding: 7px 10px;
@@ -88,7 +98,6 @@
         .student-item.active {
             background: #d1ecf1;
         }
-        /* 中间区域 */
         .center-panel {
             flex: 1;
             display: flex;
@@ -143,7 +152,6 @@
             font-size: 14px;
             line-height: 1.4;
         }
-        /* 右侧统计 */
         .right-panel {
             width: 300px;
             background: white;
@@ -175,7 +183,6 @@
             margin: 6px 0;
             font-size: 14px;
         }
-        /* 底部 */
         .footer {
             margin-top: 15px;
             display: flex;
@@ -197,7 +204,6 @@
 </head>
 <body>
 
-<!-- 顶部：标题 + 周一至周五 -->
 <div class="header">
     <div class="title">3班纪律管理系统</div>
     <div class="day-tabs">
@@ -209,27 +215,42 @@
     </div>
 </div>
 
-<!-- 主体 -->
 <div class="main-container">
-    <!-- 左侧：学生名单 + 值班班干部 -->
     <div class="left-panel">
         <div class="duty-monitor">
             值班班干部：<input type="text" id="monitor" placeholder="输入姓名" style="width:130px; padding:5px;">
         </div>
 
-        <div class="group-title">第一组</div>
+        <!-- 一键选择小组 -->
+        <select class="group-select" id="groupSelect">
+            <option value="">—— 选择整个小组操作 ——</option>
+            <option value="1">第一组</option>
+            <option value="2">第二组</option>
+            <option value="3">第三组</option>
+            <option value="4">第四组</option>
+            <option value="5">第五组</option>
+            <option value="6">第六组</option>
+            <option value="7">第七组</option>
+            <option value="8">第八组</option>
+            <option value="9">第九组</option>
+            <option value="10">第十组</option>
+            <option value="11">第十一组</option>
+            <option value="12">第十二组</option>
+        </select>
+
+        <div class="group-title" data-group="1">第一组</div>
         <div class="student-item" data-group="1" data-name="蔡钧浩" data-id="1">蔡钧浩（1号）</div>
         <div class="student-item" data-group="1" data-name="黄潞" data-id="18">黄潞（18号）</div>
         <div class="student-item" data-group="1" data-name="黎卓然" data-id="21">黎卓然（21号）</div>
         <div class="student-item" data-group="1" data-name="伍柏熹" data-id="39">伍柏熹（39号）</div>
 
-        <div class="group-title">第二组</div>
+        <div class="group-title" data-group="2">第二组</div>
         <div class="student-item" data-group="2" data-name="周夏旭" data-id="52">周夏旭（52号）</div>
         <div class="student-item" data-group="2" data-name="钟雯珺" data-id="48">钟雯珺（48号）</div>
         <div class="student-item" data-group="2" data-name="高晓柔" data-id="13">高晓柔（13号）</div>
         <div class="student-item" data-group="2" data-name="刘雨悦" data-id="33">刘雨悦（33号）</div>
 
-        <div class="group-title">第三组</div>
+        <div class="group-title" data-group="3">第三组</div>
         <div class="student-item" data-group="3" data-name="段芸洁" data-id="9">段芸洁（9号）</div>
         <div class="student-item" data-group="3" data-name="李浩明" data-id="22">李浩明（22号）</div>
         <div class="student-item" data-group="3" data-name="李诗钰" data-id="23">李诗钰（23号）</div>
@@ -237,19 +258,19 @@
         <div class="student-item" data-group="3" data-name="洪烨欣" data-id="15">洪烨欣（15号）</div>
         <div class="student-item" data-group="3" data-name="罗文卓" data-id="34">罗文卓（34号）</div>
 
-        <div class="group-title">第四组</div>
+        <div class="group-title" data-group="4">第四组</div>
         <div class="student-item" data-group="4" data-name="黄高峰" data-id="16">黄高峰（16号）</div>
         <div class="student-item" data-group="4" data-name="钟佳妍" data-id="47">钟佳妍（47号）</div>
         <div class="student-item" data-group="4" data-name="陈卓熙" data-id="5">陈卓熙（5号）</div>
         <div class="student-item" data-group="4" data-name="陈宇鹏" data-id="4">陈宇鹏（4号）</div>
 
-        <div class="group-title">第五组</div>
+        <div class="group-title" data-group="5">第五组</div>
         <div class="student-item" data-group="5" data-name="赵祥宇" data-id="46">赵祥宇（46号）</div>
         <div class="student-item" data-group="5" data-name="林卓熙" data-id="32">林卓熙（32号）</div>
         <div class="student-item" data-group="5" data-name="梁海瑜" data-id="25">梁海瑜（25号）</div>
         <div class="student-item" data-group="5" data-name="周杰楠" data-id="50">周杰楠（50号）</div>
 
-        <div class="group-title">第六组</div>
+        <div class="group-title" data-group="6">第六组</div>
         <div class="student-item" data-group="6" data-name="蒙嘉怡" data-id="35">蒙嘉怡（35号）</div>
         <div class="student-item" data-group="6" data-name="阳佳言" data-id="44">阳佳言（44号）</div>
         <div class="student-item" data-group="6" data-name="周凯荧" data-id="51">周凯荧（51号）</div>
@@ -257,45 +278,44 @@
         <div class="student-item" data-group="6" data-name="辛俊耀" data-id="40">辛俊耀（40号）</div>
         <div class="student-item" data-group="6" data-name="黄继聪" data-id="17">黄继聪（17号）</div>
 
-        <div class="group-title">第七组</div>
+        <div class="group-title" data-group="7">第七组</div>
         <div class="student-item" data-group="7" data-name="胥淘然" data-id="41">胥淘然（41号）</div>
         <div class="student-item" data-group="7" data-name="徐雨彤" data-id="42">徐雨彤（42号）</div>
         <div class="student-item" data-group="7" data-name="杜焯浩" data-id="8">杜焯浩（8号）</div>
         <div class="student-item" data-group="7" data-name="吴芯蕾" data-id="54">吴芯蕾（54号）</div>
 
-        <div class="group-title">第八组</div>
+        <div class="group-title" data-group="8">第八组</div>
         <div class="student-item" data-group="8" data-name="廖美倩" data-id="29">廖美倩（29号）</div>
         <div class="student-item" data-group="8" data-name="冯昱钧" data-id="10">冯昱钧（10号）</div>
         <div class="student-item" data-group="8" data-name="许爝耀" data-id="43">许爝耀（43号）</div>
         <div class="student-item" data-group="8" data-name="张上亮" data-id="45">张上亮（45号）</div>
 
-        <div class="group-title">第九组</div>
+        <div class="group-title" data-group="9">第九组</div>
         <div class="student-item" data-group="9" data-name="黄圣杰" data-id="19">黄圣杰（19号）</div>
         <div class="student-item" data-group="9" data-name="蔡文靖" data-id="2">蔡文靖（2号）</div>
         <div class="student-item" data-group="9" data-name="钟子承" data-id="49">钟子承（49号）</div>
         <div class="student-item" data-group="9" data-name="陈嘉俊" data-id="3">陈嘉俊（3号）</div>
         <div class="student-item" data-group="9" data-name="甘诚鑫" data-id="11">甘诚鑫（11号）</div>
 
-        <div class="group-title">第十组</div>
+        <div class="group-title" data-group="10">第十组</div>
         <div class="student-item" data-group="10" data-name="甘婷方" data-id="12">甘婷方（12号）</div>
         <div class="student-item" data-group="10" data-name="何俊朗" data-id="14">何俊朗（14号）</div>
         <div class="student-item" data-group="10" data-name="解勤志" data-id="20">解勤志（20号）</div>
         <div class="student-item" data-group="10" data-name="梁柏瑜" data-id="24">梁柏瑜（24号）</div>
 
-        <div class="group-title">第十一组</div>
+        <div class="group-title" data-group="11">第十一组</div>
         <div class="student-item" data-group="11" data-name="陈紫荧" data-id="6">陈紫荧（6号）</div>
         <div class="student-item" data-group="11" data-name="欧美莹" data-id="37">欧美莹（37号）</div>
         <div class="student-item" data-group="11" data-name="邓浩海" data-id="7">邓浩海（7号）</div>
         <div class="student-item" data-group="11" data-name="王梓萱" data-id="38">王梓萱（38号）</div>
 
-        <div class="group-title">第十二组</div>
+        <div class="group-title" data-group="12">第十二组</div>
         <div class="student-item" data-group="12" data-name="孟星宇" data-id="36">孟星宇（36号）</div>
         <div class="student-item" data-group="12" data-name="梁景烨" data-id="26">梁景烨（26号）</div>
         <div class="student-item" data-group="12" data-name="梁梓轩" data-id="28">梁梓轩（28号）</div>
         <div class="student-item" data-group="12" data-name="林明辉" data-id="31">林明辉（31号）</div>
     </div>
 
-    <!-- 中间：行为按钮 + 纪律记录 -->
     <div class="center-panel">
         <div class="action-buttons">
             <div class="btn-row">
@@ -326,7 +346,6 @@
         </div>
     </div>
 
-    <!-- 右侧：节次 + 统计 -->
     <div class="right-panel">
         <select class="section-select" id="sectionSelect">
             <option value="早读">早读</option>
@@ -356,7 +375,6 @@
     </div>
 </div>
 
-<!-- 底部：导出 / 清空 / 锁定 -->
 <div class="footer">
     <button class="footer-btn btn-export" id="exportBtn">导出记录</button>
     <button class="footer-btn btn-clear" id="clearBtn">清空记录</button>
@@ -368,15 +386,22 @@
     let currentDay = "周一";
     let isLocked = false;
     let selectedStudent = null;
+    let selectedGroup = null;
 
-    // 每天独立数据
-    let dayData = {
+    // ✅ 正确密码：578945319
+    const CLEAR_PASSWORD = "578945319";
+
+    // 初始化数据结构
+    const defaultData = {
         "周一": { records: [], praise:0, violate:0, total:0 },
         "周二": { records: [], praise:0, violate:0, total:0 },
         "周三": { records: [], praise:0, violate:0, total:0 },
         "周四": { records: [], praise:0, violate:0, total:0 },
         "周五": { records: [], praise:0, violate:0, total:0 }
     };
+
+    // 从本地存储加载数据
+    let dayData = JSON.parse(localStorage.getItem('class3_discipline')) || defaultData;
 
     // DOM
     const dayTabs = document.querySelectorAll('.day-tab');
@@ -386,6 +411,12 @@
     const violateEl = document.getElementById('violateCount');
     const totalEl = document.getElementById('totalScore');
     const sectionSelect = document.getElementById('sectionSelect');
+    const groupSelect = document.getElementById('groupSelect');
+
+    // 保存数据到本地
+    function saveData() {
+        localStorage.setItem('class3_discipline', JSON.stringify(dayData));
+    }
 
     // ========== 日期切换 ==========
     dayTabs.forEach(tab => {
@@ -397,9 +428,30 @@
             renderRecords();
             updateStats();
             selectedStudent = null;
-            document.querySelectorAll('.student-item').forEach(i => i.classList.remove('active'));
+            selectedGroup = null;
+            groupSelect.value = "";
+            document.querySelectorAll('.student-item, .group-title').forEach(i => i.classList.remove('active'));
             clearStuGroupStats();
         });
+    });
+
+    // ========== 小组选择（一键操作整组） ==========
+    groupSelect.addEventListener('change', function(){
+        if(isLocked) return;
+        const g = this.value;
+        if(!g) {
+            selectedGroup = null;
+            document.querySelectorAll('.group-title').forEach(t => t.classList.remove('active'));
+            clearStuGroupStats();
+            return;
+        }
+        selectedGroup = g;
+        selectedStudent = null;
+        document.querySelectorAll('.student-item').forEach(i => i.classList.remove('active'));
+        document.querySelectorAll('.group-title').forEach(t => {
+            t.classList.toggle('active', t.dataset.group == g);
+        });
+        updateStuGroupStats();
     });
 
     // ========== 选择学生 ==========
@@ -407,7 +459,9 @@
     students.forEach(item => {
         item.addEventListener('click', () => {
             if(isLocked) return;
-            students.forEach(i => i.classList.remove('active'));
+            groupSelect.value = "";
+            selectedGroup = null;
+            document.querySelectorAll('.student-item, .group-title').forEach(i => i.classList.remove('active'));
             item.classList.add('active');
             selectedStudent = {
                 group: item.dataset.group,
@@ -418,12 +472,12 @@
         });
     });
 
-    // ========== 行为按钮 ==========
+    // ========== 行为按钮（支持个人 + 整组） ==========
     const actionBtns = document.querySelectorAll('.action-buttons .btn');
     actionBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            if(isLocked || !selectedStudent) {
-                alert(!selectedStudent ? "请先选择学生！" : "系统已锁定！");
+            if(isLocked || (!selectedStudent && !selectedGroup)) {
+                alert((!selectedStudent && !selectedGroup) ? "请选择学生或小组！" : "系统已锁定！");
                 return;
             }
             const action = btn.dataset.action;
@@ -431,29 +485,53 @@
             const time = new Date().toLocaleTimeString();
             const section = sectionSelect.value;
 
-            // 记录
-            const record = {
-                day: currentDay, section, time,
-                group: selectedStudent.group,
-                student: selectedStudent.name + "（" + selectedStudent.id + "号）",
-                action, score
-            };
-            dayData[currentDay].records.unshift(record);
-
-            // 统计
-            if(score.includes("+")) {
-                dayData[currentDay].praise++;
-                dayData[currentDay].total += parseInt(score);
-            } else if(score.includes("-")) {
-                dayData[currentDay].violate++;
-                dayData[currentDay].total += parseInt(score);
+            // 个人模式
+            if(selectedStudent){
+                const record = {
+                    day: currentDay, section, time,
+                    group: selectedStudent.group,
+                    student: selectedStudent.name + "（" + selectedStudent.id + "号）",
+                    action, score
+                };
+                dayData[currentDay].records.unshift(record);
+                updateCount(score);
             }
 
+            // 整组模式
+            if(selectedGroup){
+                const groupStudents = document.querySelectorAll(`.student-item[data-group="${selectedGroup}"]`);
+                groupStudents.forEach(item => {
+                    const name = item.dataset.name;
+                    const id = item.dataset.id;
+                    const record = {
+                        day: currentDay, section, time,
+                        group: selectedGroup,
+                        student: name + "（" + id + "号）",
+                        action: `【全组】${action}`,
+                        score
+                    };
+                    dayData[currentDay].records.unshift(record);
+                });
+                updateCount(score);
+            }
+
+            saveData();
             updateStats();
             updateStuGroupStats();
             renderRecords();
         });
     });
+
+    // 加分/违纪统计更新
+    function updateCount(score){
+        if(score.includes("+")) {
+            dayData[currentDay].praise++;
+            dayData[currentDay].total += parseInt(score);
+        } else if(score.includes("-")) {
+            dayData[currentDay].violate++;
+            dayData[currentDay].total += parseInt(score);
+        }
+    }
 
     // ========== 渲染记录 ==========
     function renderRecords() {
@@ -477,24 +555,35 @@
 
     // 个人+小组统计
     function updateStuGroupStats() {
-        if(!selectedStudent) { clearStuGroupStats(); return; }
-        const g = selectedStudent.group;
-        const name = selectedStudent.name;
         const data = dayData[currentDay].records;
 
         // 个人
-        const stuAdd = data.filter(r => r.student.includes(name) && r.score.includes("+")).length;
-        const stuMinus = data.filter(r => r.student.includes(name) && r.score.includes("-")).length;
-        document.getElementById('stuName').textContent = name;
-        document.getElementById('stuAdd').textContent = stuAdd;
-        document.getElementById('stuMinus').textContent = stuMinus;
+        if(selectedStudent) {
+            const name = selectedStudent.name;
+            const stuAdd = data.filter(r => r.student.includes(name) && r.score.includes("+")).length;
+            const stuMinus = data.filter(r => r.student.includes(name) && r.score.includes("-")).length;
+            document.getElementById('stuName').textContent = name;
+            document.getElementById('stuAdd').textContent = stuAdd;
+            document.getElementById('stuMinus').textContent = stuMinus;
+        } else {
+            document.getElementById('stuName').textContent = "-";
+            document.getElementById('stuAdd').textContent = 0;
+            document.getElementById('stuMinus').textContent = 0;
+        }
 
         // 小组
-        const groupAdd = data.filter(r => r.group == g && r.score.includes("+")).length;
-        const groupMinus = data.filter(r => r.group == g && r.score.includes("-")).length;
-        document.getElementById('groupNum').textContent = g;
-        document.getElementById('groupAdd').textContent = groupAdd;
-        document.getElementById('groupMinus').textContent = groupMinus;
+        const g = selectedGroup || (selectedStudent ? selectedStudent.group : null);
+        if(g) {
+            const groupAdd = data.filter(r => r.group == g && r.score.includes("+")).length;
+            const groupMinus = data.filter(r => r.group == g && r.score.includes("-")).length;
+            document.getElementById('groupNum').textContent = g;
+            document.getElementById('groupAdd').textContent = groupAdd;
+            document.getElementById('groupMinus').textContent = groupMinus;
+        } else {
+            document.getElementById('groupNum').textContent = "-";
+            document.getElementById('groupAdd').textContent = 0;
+            document.getElementById('groupMinus').textContent = 0;
+        }
     }
 
     function clearStuGroupStats() {
@@ -507,12 +596,30 @@
     }
 
     // ========== 底部按钮 ==========
+    // 清空记录（带密码验证）
     document.getElementById('clearBtn').onclick = () => {
         if(isLocked) return alert("已锁定！");
-        if(!confirm("确定清空当天所有记录？")) return;
+        
+        const inputPwd = prompt("请输入清空密码：");
+        if(inputPwd === null) return;
+        
+        // 核对密码
+        if(inputPwd !== CLEAR_PASSWORD) {
+            alert("密码错误！无法清空记录");
+            return;
+        }
+
+        if(!confirm("密码正确！确定清空当天所有记录？")) return;
         const d = dayData[currentDay];
-        d.records = []; d.praise=0; d.violate=0; d.total=0;
-        updateStats(); renderRecords(); clearStuGroupStats();
+        d.records = [];
+        d.praise = 0;
+        d.violate = 0;
+        d.total = 0;
+        saveData();
+        updateStats();
+        renderRecords();
+        clearStuGroupStats();
+        alert("✅ 当天记录已清空！");
     };
 
     document.getElementById('lockBtn').onclick = () => {
@@ -534,6 +641,12 @@
         a.href = URL.createObjectURL(blob);
         a.download = `3班_${currentDay}_纪律记录.txt`;
         a.click();
+    };
+
+    // ========== 初始化页面 ==========
+    window.onload = function() {
+        renderRecords();
+        updateStats();
     };
 </script>
 </body>
