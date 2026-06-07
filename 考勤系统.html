@@ -16,7 +16,7 @@
 body {
     background: #fff5f8;
     padding: 10px;
-    max-width: 1800px;
+    max-width: 1920px;
     margin: 0 auto;
 }
 
@@ -40,14 +40,15 @@ body.night {
 .student-item .student-name {
     font-weight: bold;
     margin-bottom: 6px;
-    font-size: 17px;
+    font-size: 15px;
     color: #e6398b;
     cursor: pointer;
     user-select: none;
 }
 .time-text {
-    font-size: 13px;
+    font-size: 12px;
     color: #e6398b;
+    word-break: break-all;
 }
 .student-btn.signed.late {
     background: #FF9800 !important;
@@ -58,7 +59,7 @@ body.night {
     color: #fff !important;
 }
 .leave-text {
-    font-size: 12px;
+    font-size: 11px;
     color: #9c27b0;
     font-weight: bold;
 }
@@ -78,6 +79,7 @@ body.night {
     color: #e6398b;
     cursor: pointer;
     font-weight: bold;
+    margin: 2px;
 }
 .type-btn.active, .week-btn.active {
     background: #e6398b;
@@ -111,23 +113,26 @@ body.night {
     color: #e6398b;
     cursor: pointer;
     font-weight: bold;
+    font-size: 12px;
 }
 .sign-btn.signed, .student-btn.signed {
     background: #e6398b;
     color: white;
 }
+/* 学生网格：自适应列数，一屏完整显示 */
 .student-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 6px;
-    flex: 1;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 8px;
+    width: 100%;
 }
 .student-item {
     border: 2px solid #ffc0cb;
     background: #fff5f8;
     border-radius: 10px;
-    padding: 8px;
+    padding: 8px 4px;
     text-align: center;
+    min-height: 110px;
 }
 
 .export-btn, .night-export-btn {
@@ -140,6 +145,7 @@ body.night {
     padding:10px;
     border-radius:15px;
     border:2px solid #ffc0cb;
+    margin-bottom: 10px;
 }
 .rank-title{
     text-align:center;
@@ -151,7 +157,7 @@ body.night {
 .black-title{ color:#ff5722; }
 .rank-list{
     font-size:12px;
-    line-height:1.5;
+    line-height:1.4;
     padding:0 5px;
 }
 
@@ -210,7 +216,7 @@ body.night .black-title{ color:#e64a19; }
 .func-bar {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 4px;
     justify-content: center;
     margin-bottom: 12px;
 }
@@ -218,12 +224,13 @@ body.night .black-title{ color:#e64a19; }
     display: flex;
     gap: 15px;
     margin-bottom: 15px;
-    align-items: stretch;
+    align-items: flex-start;
 }
 .left-col {
-    width: 300px;
+    width: 320px;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
 }
 .right-box {
     flex: 1;
@@ -243,6 +250,40 @@ body.night .black-title{ color:#e64a19; }
 .export-btn {
     margin: 15px auto 0;
     display: block;
+}
+
+/* 班主任签到框 + 男性emoji */
+.teacher-sign-box {
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    border: 3px solid #e6398b;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.teacher-btn {
+    width: 100%;
+    padding: 18px;
+    font-size: 22px;
+    font-weight: bold;
+    border-radius: 12px;
+    background: #e6398b;
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.teacher-btn.signed {
+    background: #2e7d32;
+}
+body.night .teacher-sign-box {
+    border-color: #2e7d32;
+}
+body.night .teacher-btn {
+    background: #2e7d32;
+}
+body.night .teacher-btn.signed {
+    background: #1b5e20;
 }
 </style>
 </head>
@@ -268,6 +309,12 @@ body.night .black-title{ color:#e64a19; }
 
 <div class="main-container">
     <div class="left-col">
+        <!-- 班主任签到 改用男性👨表情 -->
+        <div class="teacher-sign-box">
+            <button class="teacher-btn" id="teacherBtn">👨 班主任签到</button>
+            <div class="time-text" id="teacherTime" style="margin-top:8px;"></div>
+        </div>
+
         <div class="left-box">
             <div class="box-title">🧹 值日生</div>
             <table class="table">
@@ -288,6 +335,7 @@ body.night .black-title{ color:#e64a19; }
 
     <div class="right-box">
         <div class="box-title">👧🏻👦 学生签到（长按名字5秒请假）</div>
+        <!-- 学生区域 一屏完整展示所有卡片 -->
         <div class="student-grid" id="studentGrid"></div>
     </div>
 </div>
@@ -310,12 +358,78 @@ body.night .black-title{ color:#e64a19; }
 <script>
 // ===================== 配置 =====================
 const dutyConfig = {
-    周一: {一二大组:"胥淘然",三四大组:"吴芯蕾",走廊:"楠/佳/圣",天桥:"钟佳妍",栏杆:"钟雯珺",公区1:"李诗钰",公区2:"梁海瑜",公区3:"甘诚鑫",公区4:"罗文卓",公区5:"黄继聪"},
-    周二: {一二大组:"欧美莹",三四大组:"洪烨欣",走廊:"林明辉",天桥:"周凯荧",栏杆:"蔡钧浩",公区1:"陈紫荧",公区2:"甘婷方",公区3:"冯昱钧",公区4:"陈宇鹏",公区5:"伍柏熹"},
-    周三: {一二大组:"段芸洁",三四大组:"黄高峰",走廊:"赵祥宇",天桥:"何俊朗",栏杆:"陈嘉俊",公区1:"梁婉儿",公区2:"王梓萱",公区3:"解勤志",公区4:"刘雨悦",公区5:"张上亮"},
-    周四: {一二大组:"许耀耀",三四大组:"徐雨彤",走廊:"黎卓然",天桥:"陈卓熙",栏杆:"邓浩海",公区1:"廖美倩",公区2:"蒙嘉怡",公区3:"林建斌",公区4:"梁柏瑜",公区5:"孟星宇"},
-    周五: {一二大组:"高晓柔",三四大组:"黄潞",走廊:"钟子承",天桥:"梁景烨",栏杆:"梁梓轩",公区1:"蔡文靖",公区2:"杜焯浩",公区3:"辛俊耀",公区4:"林卓熙",公区5:"李浩明"},
-    周日: {一二大组:"扣分名单",三四大组:"扣分名单",走廊:"扣分名单",天桥:"扣分名单",栏杆:"扣分名单",公区1:"扣分名单",公区2:"扣分名单",公区3:"扣分名单",公区4:"扣分名单",公区5:"扣分名单"}
+    周一: {
+        "课室右半——扫地、拖地":"胥淘然",
+        "课室左半——扫地、拖地":"吴芯蕾",
+        "两侧走廊扫地、拖地":"周夏旭",
+        "天桥和连廊扫地、拖地":"钟佳妍",
+        "课室窗台，走廊和天桥栏杆":"钟雯珺",
+        "公区1号区域":"黄继聪",
+        "公区2号区域":"李诗钰",
+        "公区3号区域":"梁海瑜",
+        "公区4号区域":"甘诚鑫",
+        "公区5号区域":"罗文卓"
+    },
+    周二: {
+        "课室右半——扫地、拖地":"欧美莹",
+        "课室左半——扫地、拖地":"洪烨欣",
+        "两侧走廊扫地、拖地":"冯昱钧",
+        "天桥和连廊扫地、拖地":"周凯荧",
+        "课室窗台，走廊和天桥栏杆":"蔡钧浩",
+        "公区1号区域":"伍柏熹",
+        "公区2号区域":"陈紫荧",
+        "公区3号区域":"甘婷方",
+        "公区4号区域":"林明辉",
+        "公区5号区域":"陈宇鹏"
+    },
+    周三: {
+        "课室右半——扫地、拖地":"段芸洁",
+        "课室左半——扫地、拖地":"黄高峰",
+        "两侧走廊扫地、拖地":"赵祥宇",
+        "天桥和连廊扫地、拖地":"何俊朗",
+        "课室窗台，走廊和天桥栏杆":"陈嘉俊",
+        "公区1号区域":"张上亮",
+        "公区2号区域":"梁婉儿",
+        "公区3号区域":"王梓萱",
+        "公区4号区域":"解勤志",
+        "公区5号区域":"刘雨悦"
+    },
+    周四: {
+        "课室右半——扫地、拖地":"许爝耀",
+        "课室左半——扫地、拖地":"徐雨彤",
+        "两侧走廊扫地、拖地":"黎卓然",
+        "天桥和连廊扫地、拖地":"陈卓熙",
+        "课室窗台，走廊和天桥栏杆":"邓浩海",
+        "公区1号区域":"孟星宇",
+        "公区2号区域":"廖美倩",
+        "公区3号区域":"蒙嘉怡",
+        "公区4号区域":"林建斌",
+        "公区5号区域":"梁柏瑜"
+    },
+    周五: {
+        "课室右半——扫地、拖地":"高晓柔",
+        "课室左半——扫地、拖地":"黄潞",
+        "两侧走廊扫地、拖地":"钟子承",
+        "天桥和连廊扫地、拖地":"梁景烨",
+        "课室窗台，走廊和天桥栏杆":"梁梓轩",
+        "公区1号区域":"李浩明",
+        "公区2号区域":"蔡文靖",
+        "公区3号区域":"杜焯浩",
+        "公区4号区域":"辛俊耀",
+        "公区5号区域":"林卓熙"
+    },
+    周日: {
+        "课室右半——扫地、拖地":"扣分名单",
+        "课室左半——扫地、拖地":"扣分名单",
+        "两侧走廊扫地、拖地":"扣分名单",
+        "天桥和连廊扫地、拖地":"扣分名单",
+        "课室窗台，走廊和天桥栏杆":"扣分名单",
+        "公区1号区域":"扣分名单",
+        "公区2号区域":"扣分名单",
+        "公区3号区域":"扣分名单",
+        "公区4号区域":"扣分名单",
+        "公区5号区域":"扣分名单"
+    }
 };
 
 const studentList = [
@@ -347,8 +461,9 @@ let currentWeek = "周一";
 let currentTotalType = "";
 const CLEAR_PASSWORD = "578945319";
 
+// 值日生 6:50 签到规则
 const TIME_RULE = {
-    早读: {early: {h:6,m:50}, normalLate: {h:6,m:55}, specialLate: {h:7,m:0}},
+    早读: {early: {h:6,m:50}, normalLate: {h:6,m:50}, specialLate: {h:7,m:0}},
     晚修: {early: {h:18,m:35}, normalLate: {h:18,m:40}, specialLate: {h:18,m:45}}
 };
 
@@ -376,9 +491,8 @@ function getTimeObj(timeStr){
 function toMinutes(t){ return t.h*60 + t.m }
 
 function getLateLimit(name){
-    const isSpecial = specialStudents.includes(name);
     const rule = TIME_RULE[currentType];
-    return isSpecial ? rule.specialLate : rule.normalLate;
+    return rule.normalLate;
 }
 
 function calcStatus(name, timeStr){
@@ -413,6 +527,32 @@ function toggleLeave(name){
         setLeaves(list);
         return true;
     }
+}
+
+// ===================== 班主任签到 =====================
+function initTeacherBtn() {
+    const btn = document.getElementById("teacherBtn");
+    const timeEl = document.getElementById("teacherTime");
+    const key = `TEACHER_${currentType}_${currentWeek}`;
+
+    function refresh() {
+        const records = getRecords();
+        const item = records.find(x => x.key === key);
+        btn.classList.toggle("signed", !!item);
+        timeEl.textContent = item ? item.time : "";
+    }
+
+    btn.onclick = () => {
+        const records = getRecords();
+        if (records.some(x => x.key === key)) return;
+        
+        const time = now();
+        records.push({ key, name: "班主任", type: currentType, week: currentWeek, time });
+        setRecords(records);
+        refresh();
+    };
+
+    refresh();
 }
 
 // ===================== 长按事件 =====================
@@ -619,6 +759,7 @@ function renderRank(){
 function renderAll(){
     renderDuty();
     renderStudents();
+    initTeacherBtn();
     changeTheme();
     renderRank();
 }
